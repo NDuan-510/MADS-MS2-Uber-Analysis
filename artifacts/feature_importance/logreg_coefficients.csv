@@ -1,0 +1,59 @@
+feature,coefficient
+BookingValue_missing_flag,9.052028896021968
+CTAT_missing_flag,5.859407163533305
+Incomplete Rides_fill,3.1926217324887936
+VTAT_missing_flag,2.623498772554508
+Cancelled Rides by Driver_fill,1.7558319025863933
+Cancelled Rides by Customer_fill,1.4800764883920394
+Incomplete Rides Reason_fill_Customer Demand,1.0789530555035365
+Incomplete Rides Reason_fill_Vehicle Breakdown,1.060175576937995
+Incomplete Rides Reason_fill_Other Issue,1.0534931000472665
+Driver Cancellation Reason_fill_Customer related issue,0.4426346605401428
+Driver Cancellation Reason_fill_More than permitted people in there,0.43852462045375196
+Driver Cancellation Reason_fill_The customer was coughing/sick,0.43815907878258087
+Driver Cancellation Reason_fill_Personal & Car related issues,0.43651354281000765
+Reason for cancelling by Customer_fill_Wrong Address,0.32903536675020667
+Reason for cancelling by Customer_fill_Driver is not moving towards pickup location,0.32598512894609716
+Reason for cancelling by Customer_fill_Change of plans,0.3251684367367506
+Reason for cancelling by Customer_fill_Driver asked to cancel,0.32043241533848155
+Reason for cancelling by Customer_fill_AC is not working,0.17945514062041637
+pick_latitude,0.031055659743706443
+Vehicle Type_eBike,0.006708092496123915
+relative_humidity_2m_dropoff_scaled,0.006034373372595791
+Vehicle Type_Go Sedan,0.005382718121293995
+Vehicle Type_Auto,0.0024998407740272587
+wind_speed_10m_scaled,0.0020205793214186987
+dew_point_2m_dropoff_scaled,0.0017791687358239825
+Booking Value_fill_scaled,0.0016053752004831924
+drop_longitude,0.0015621874982278178
+dew_point_2m_scaled,0.0014085557695526951
+precipitation_dropoff_log_scaled,0.001250031257228521
+rain_dropoff_log_scaled,0.0007193031823866585
+drop_latitude,0.0005582795968276286
+wind_speed_10m_dropoff_scaled,0.0005088251078339272
+snowfall_dropoff_log_scaled,0.0005068751895129983
+snowfall_log_scaled,0.0002599124775274142
+apparent_temperature_dropoff_scaled,0.00011481457676451602
+temperature_2m_scaled,2.457675658552877e-06
+pick_station_latitude,-0.0003665285092539537
+drop_station_latitude,-0.0006136128210395932
+temperature_2m_dropoff_scaled,-0.000660959689309431
+apparent_temperature_scaled,-0.0008746429455327805
+Vehicle Type_Premier Sedan,-0.0009631280304329476
+pick_station_longitude,-0.0020279080542440747
+relative_humidity_2m_scaled,-0.0021261637702877046
+Vehicle Type_Go Mini,-0.003056393018712047
+precipitation_log_scaled,-0.0034749900392498745
+Vehicle Type_Uber XL,-0.0036566740291827915
+rain_log_scaled,-0.0038671535790370326
+Customer Rating_fill,-0.006187511891714098
+Driver Ratings_fill,-0.006510852203469559
+drop_station_longitude,-0.008338462983446829
+Vehicle Type_Bike,-0.00926257563421884
+pick_longitude,-0.03412240490115296
+Avg VTAT_fill_scaled,-0.10049964918150772
+Avg CTAT_fill_scaled,-0.356987829773409
+Ride Distance_fill_scaled,-0.3934582641395636
+Reason for cancelling by Customer_fill_No Cancellation by Customer,-1.4824246077131114
+Driver Cancellation Reason_fill_No Cancellation by Driver,-1.758180021907398
+Incomplete Rides Reason_fill_No Incomplete Ride,-3.194969851809765
