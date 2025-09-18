@@ -1,0 +1,657 @@
+source_id,longitude,latitude,uber_loc,address,region,county,locality
+way/701576004,77.321312,28.675872,Dilshad Garden,"Dilshad Garden, Delhi, India",Delhi,South West Delhi,Delhi
+way/764108576,77.313283,28.680287,Dilshad Garden,"DGD Dilshad Garden, Delhi, India",Delhi,South West Delhi,Delhi
+node/6546811518,77.311692,28.67588,Dilshad Garden,"Dilshad Garden GT Road, Delhi, India",Delhi,South West Delhi,Delhi
+node/5818161659,77.324501,28.679252,Dilshad Garden,"Dilshad Garden J & K Block, Delhi, India",Delhi,South West Delhi,Delhi
+way/349818075,77.057951,28.425139,Dilshad Garden,"B-block Mayfield Garden, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29595308,77.203946,28.512954,IGNOU Road,"IGNOU Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29595262,77.1973,28.501588,IGNOU Road,"IGNOU Road, Delhi, India",Delhi,South West Delhi,Delhi
+1343706211,77.59341,24.62422,Shahdara,"Shahdaura, MP, India",Madhya Pradesh,Ashoknagar,Shahdaura
+1343437735,74.34525,33.55273,Shahdara,"Shahdara, India",Jammu and Kashmir,Rajouri,Shahdara
+1327455481,74.05252,33.95137,Shahdara,"Shahdara, JK, India",Azad Kashmir,Bagh,Shahdara
+1293665885,73.96285,34.11283,Shahdara,"Shahdara, India",Jammu and Kashmir,Baramulla,Shahdara
+1276488575,79.0356,28.97759,Shahdara,"Shahdara, UP, India",Uttar Pradesh,Rampur,Shahdara
+102030855,76.931707,28.692435,Bahadurgarh,"Bahadurgarh, HR, India",Haryana,Jhajjar,Bahadurgarh
+1327387303,77.79459,26.38332,Bahadurgarh,"Bahadurgarh, MP, India",Madhya Pradesh,Morena,Bahadurgarh
+1326869329,83.39183,27.11602,Bahadurgarh,"Bahadurgarh, UP, India",Uttar Pradesh,Maharajganj,Bahadurgarh
+1310554259,77.74172,29.21452,Bahadurgarh,"Bahadurgarh, UP, India",Uttar Pradesh,Muzaffarnagar,Bahadurgarh
+1293839979,76.39385,30.66624,Bahadurgarh,"Bahadurgarh, PB, India",Punjab,Fatehgarh Sahib,Bahadurgarh
+node/438033023,77.068221,28.477172,IFFCO Chowk,"IFFCO Chowk, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7018301882,77.072422,28.472328,IFFCO Chowk,"IFFCO Chowk Metro Station, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7883930540,77.072243,28.47161,IFFCO Chowk,"Iffco Chowk Metro Station Gate No 2, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7883930541,77.072723,28.472233,IFFCO Chowk,"Iffco Chowk Metro Station Gate No 1, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7507287586,82.062945,25.536083,IFFCO Chowk,"Iffco Hospital, UP, India",Uttar Pradesh,Allahabad,
+polyline:31580734,77.495958,28.452974,Noida Extension,"Noida-Greater Noida Expressway, Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+polyline:31582413,77.398824,28.503459,Noida Extension,"Noida-Greater Noida Expressway, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+polyline:31582375,77.361678,28.52982,Noida Extension,"Greater Noida Expressway, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+node/6547772110,77.162658,28.725972,Jahangirpuri,"Jahangirpuri, Delhi, India",Delhi,South West Delhi,Delhi
+way/1136674906,77.175208,28.733716,Jahangirpuri,"Police Station Jahangirpuri, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3888868,77.165599,28.742703,Jahangirpuri,"Bhalswa Jahangirpuri, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3907686,77.175861,28.724057,Jahangirpuri,"Jahangirpuri Colony, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3888867,77.159073,28.736037,Jahangirpuri,"Bhalswa Jahangirpuri, Delhi, India",Delhi,South West Delhi,Delhi
+1779890059,80.34791,25.46445,Shastri Nagar,"Shastri Nagar, Banda, UP, India",Uttar Pradesh,Banda,Banda
+890500821,80.26028,12.99667,Shastri Nagar,"Shasthri Nagar, Chennai, TN, India",Tamil Nadu,Chennai,Chennai
+85931247,73.89728,18.552377,Shastri Nagar,"Shastri Nagar, Pune, MH, India",Maharashtra,Pune,Pune
+node/1988598418,77.115385,28.714957,Rohini West,"Rohini West, Delhi, India",Delhi,South West Delhi,Delhi
+node/8042861164,77.116034,28.715111,Rohini West,"Organic India Rohini West, Delhi, India",Delhi,South West Delhi,Delhi
+way/825169112,77.115441,28.714873,Rohini West,"Rohini West Metro station, Delhi, India",Delhi,South West Delhi,Delhi
+12069922,77.06778,28.74322,Rohini West,"Rohini, Delhi, India",Delhi,South West Delhi,Delhi
+node/6173579389,74.87468,20.371132,Rohini West,"Rohini, MH, India",Maharashtra,Jalgaon,
+polyline:29593138,77.105341,28.429297,Golf Course Road,"Golf Course Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29960001,77.019591,10.921869,Golf Course Road,"Golf Course Road, TN, India",Tamil Nadu,Coimbatore,
+node/7138534297,77.212246,28.664396,Pulbangash,"DGD Pulbangash, Delhi, India",Delhi,South West Delhi,Delhi
+node/663766390,77.125969,28.707901,Rohini East,"Rohini East, Delhi, India",Delhi,South West Delhi,Delhi
+way/556039267,77.125374,28.706784,Rohini East,"Rohini east community park, Delhi, India",Delhi,South West Delhi,Delhi
+12069922,77.06778,28.74322,Rohini East,"Rohini, Delhi, India",Delhi,South West Delhi,Delhi
+node/6173579389,74.87468,20.371132,Rohini East,"Rohini, MH, India",Maharashtra,Jalgaon,
+node/1988598418,77.115385,28.714957,Rohini East,"Rohini West, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:22305037,78.466188,17.376458,Panchsheel Park,"Panchsheel, Hyderabad, TG, India",Telangana,Hyderabad,Hyderabad
+polyline:29837006,72.857128,19.178511,Panchsheel Park,"Panchsheel, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+polyline:29594709,77.192218,28.596621,Panchsheel Park,"Panchsheel Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29595453,77.180843,28.601865,Panchsheel Park,"Panchsheel Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20313959,79.487357,29.176234,Panchsheel Park,"Panchsheel Colony, UT, India",Uttarakhand,Nainital,
+way/256583527,77.094349,28.481041,Sikanderpur,"Sikanderpur, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29593264,77.094734,28.482359,Sikanderpur,"Sikanderpur Underpass, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/10064542582,77.093901,28.480335,Sikanderpur,"Sikanderpur Metro Station, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/267001567,77.096781,28.504114,Ambience Mall,"Ambience Mall, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:22304691,78.423101,17.37114,Ambience Mall,"ambience Road, Hyderabad, TG, India",Telangana,Hyderabad,Hyderabad
+way/179846605,77.1551,28.541252,Ambience Mall,"Ambience Mall, Delhi, India",Delhi,South West Delhi,Delhi
+node/8014344672,77.154739,28.541383,Ambience Mall,"Inisfree, Ambience Mall, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:19528348,77.753185,31.202639,Ambience Mall,"Mall Road, HP, India",Himachal Pradesh,Shimla,
+polyline:31580687,77.027079,28.458618,Sohna Road,"Sohna Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:20054527,76.284132,29.851862,Sohna Road,"SOHNA ROAD, HR, India",Haryana,Kaithal,
+node/7624464956,77.029158,28.43885,Sohna Road,"Kendriya Vidyalaya No.2 Sohna Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:19655163,75.654295,30.552355,Sohna Road,"sohna fojji d gali, PB, India",Punjab,Barnala,
+10246041,77.04708,28.4121,Sohna Road,"Oyo Rooms Premium Sohna Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29595356,77.109298,28.616185,Satguru Ram Singh Marg,"Satguru Ram Singh Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594866,77.148434,28.655447,Satguru Ram Singh Marg,"Satguru Ram Singh Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594844,77.140546,28.646411,Satguru Ram Singh Marg,"Satguru Ram Singh Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594873,77.130413,28.637439,Satguru Ram Singh Marg,"Satguru Ram Singh Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20404975,77.298484,28.680502,Mansarovar Park,"Mansarovar Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:21278149,72.616272,22.998156,Mansarovar Park,"Mansarovar Road, Ahmedabad, GJ, India",Gujarat,Ahmadabad,Ahmedabad
+node/1435294693,73.080655,19.016434,Mansarovar Park,"Mansarovar, MH, India",Maharashtra,Raigarh,
+polyline:29835862,73.09239,19.024434,Mansarovar Park,"Mansarovar Station Road, Kalamboli, MH, India",Maharashtra,Raigarh,Kalamboli
+polyline:29645384,75.773825,26.869485,Mansarovar Park,"Mansarovar Link Road, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+85927889,77.139422,28.661482,Moti Nagar,"Moti Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+node/1988513583,77.247211,28.616039,Pragati Maidan,"Pragati Maidan, Delhi, India",Delhi,South West Delhi,Delhi
+way/28103691,77.243964,28.616731,Pragati Maidan,"Pragati Maidan Redevelopment, Delhi, India",Delhi,South West Delhi,Delhi
+6619402,77.24135,28.6167,Pragati Maidan,"Pragati Maiden, Delhi, India",Delhi,South West Delhi,Delhi
+85927907,77.243499,28.618669,Pragati Maidan,"Pragati Maidan, Delhi, India",Delhi,South West Delhi,Delhi
+node/6362609786,77.250189,28.615983,Pragati Maidan,"Pragati Power Station, Delhi, India",Delhi,South West Delhi,Delhi
+85928039,77.093503,28.64031,Tilak Nagar,"Tilak Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+85933613,76.650662,12.310491,Tilak Nagar,"Tilak Nagar, Mysore, KA, India",Karnataka,Mysore,Mysore
+85934539,75.819821,26.891545,Tilak Nagar,"Tilak Nagar, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+85931501,72.892893,19.067684,Tilak Nagar,"Tilak Nagar, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+node/6548798521,77.11282,28.643727,Tagore Garden,"Tagore Garden, Delhi, India",Delhi,South West Delhi,Delhi
+890509467,77.114796,28.651578,Tagore Garden,"Tagore Garden metro station, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:22653295,78.714822,10.852782,Tagore Garden,"Tagore Street, TN, India",Tamil Nadu,Tiruchirappalli,
+polyline:20405294,77.227846,28.639739,Tagore Garden,"Tagore Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:21995134,72.836285,19.0829,Tagore Garden,"Tagore Road, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+node/6485904396,77.194555,28.547012,IIT Delhi,"IIT Delhi, Delhi, India",Delhi,South West Delhi,Delhi
+way/510367286,77.188601,28.545495,IIT Delhi,"IIT Hospital, Delhi, India",Delhi,South West Delhi,Delhi
+way/1095293727,77.194973,28.546102,IIT Delhi,"IIT Metro, Delhi, India",Delhi,South West Delhi,Delhi
+way/358793752,77.187933,28.54579,IIT Delhi,"IIT Chemist, Delhi, India",Delhi,South West Delhi,Delhi
+node/5026495366,77.185616,28.550011,IIT Delhi,"IIT Hostel, Delhi, India",Delhi,South West Delhi,Delhi
+890502101,79.184,22.95078,Narsinghpur,"Narsinghpur, MP, India",Madhya Pradesh,Narsinghpur,Narsinghpur
+1360223959,82.31431,26.94949,Narsinghpur,"Narsinghpur, UP, India",Uttar Pradesh,Basti,Narsinghpur
+1344202401,85.76385,25.26761,Narsinghpur,"Narsinghpur, BR, India",Bihar,Nalanda,Narsinghpur
+1344001155,83.17844,25.91427,Narsinghpur,"Narsinghpur, UP, India",Uttar Pradesh,Azamgarh,Narsinghpur
+1343996751,81.23209,20.39784,Narsinghpur,"Narsinghpur, CT, India",Chhattisgarh,Kanker,Narsinghpur
+1360242101,78.48685,12.51609,RK Puram,"Puram, TN, India",Tamil Nadu,Vellore,Puram
+1360239943,78.05866,12.3455,RK Puram,"Puram, TN, India",Tamil Nadu,Dharmapuri,Puram
+1293249581,77.93497,12.54443,RK Puram,"Puram, TN, India",Tamil Nadu,Krishnagiri,Puram
+polyline:29800679,72.792083,21.210126,Shastri Park,"Shastri Marg, Surat, GJ, India",Gujarat,Surat,Surat
+polyline:31777798,76.527143,9.592076,Shastri Park,"Shastri Road, Kottayam, KL, India",Kerala,Kottayam,Kottayam
+polyline:22816504,76.973195,8.483991,Shastri Park,"Shastri Nagar, Thiruvananthapuram, KL, India",Kerala,Thiruvananthapuram,Thiruvananthapuram
+polyline:29864513,79.135717,18.432282,Shastri Park,"Shastri Road, Karimnagar, TG, India",Telangana,Karimnagar,Karimnagar
+polyline:31664590,82.544857,25.155715,Shastri Park,"Shastri Bridge, UP, India",Uttar Pradesh,Mirzapur,
+polyline:29594646,77.23724,28.652094,Netaji Subhash Place,"Netaji Subhash Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20768111,88.191588,26.256574,Netaji Subhash Place,"Netaji Subhash Road, Islampur, WB, India",West Bengal,Uttar Dinajpur,Islampur
+polyline:22125712,73.843302,18.552045,Netaji Subhash Place,"Netaji Subhash Marg, Pune, MH, India",Maharashtra,Pune,Pune
+polyline:29783584,88.349957,22.579663,Netaji Subhash Place,"Netaji Subhash Road, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+polyline:21343170,88.313466,22.502951,Netaji Subhash Place,"Netaji Subhash Road, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+node/5444544052,80.03546,16.241193,Hero Honda Chowk,"Hero yerramsetty hero motors, Narasaraopet, AP, India",Andhra Pradesh,Guntur,Narasaraopet
+way/803835191,75.409719,12.028563,Hero Honda Chowk,"hero plywood, KL, India",Kerala,Kannur,
+node/5798428854,76.349066,10.101609,Hero Honda Chowk,"Hero Motors, Aluva, KL, India",Kerala,Ernakulam,Aluva
+node/4541129024,83.328791,17.74276,Hero Honda Chowk,"Hero MotoCorp, Visakhapatnam, AP, India",Andhra Pradesh,Visakhapatnam,Visakhapatnam
+node/7462616375,76.357263,9.967606,Hero Honda Chowk,"Hero, KL, India",Kerala,Ernakulam,
+890505015,92.59606,24.86852,Badarpur,"Badarpur, AS, India",Assam,Hailakandi,Badarpur
+1327222453,77.09335,29.96275,Badarpur,"Badarpur, HR, India",Haryana,Kurukshetra,Badarpur
+1310480167,77.12799,29.85327,Badarpur,"Badarpur, HR, India",Haryana,Karnal,Badarpur
+1293728497,77.12102,24.42977,Badarpur,"Badarpur, MP, India",Madhya Pradesh,Guna,Badarpur
+1293541817,79.07261,28.04102,Badarpur,"Badarpur, UP, India",Uttar Pradesh,Budaun,Badarpur
+polyline:31582569,77.400277,28.685628,Raj Nagar Extension,"Raj Nagar Extension Elevated Road, Ghaziabad, UP, India",Uttar Pradesh,Ghaziabad,Ghaziabad
+node/268381455,77.107181,28.720806,Rithala,"Rithala, Delhi, India",Delhi,South West Delhi,Delhi
+1511390589,77.10269,28.72009,Rithala,"Rithala, Delhi, India",Delhi,South West Delhi,Delhi
+10263159,77.10269,28.72009,Rithala,"Rithāla, DL, India",Delhi,South West Delhi,Rithāla
+way/171656374,77.100448,28.719612,Rithala,"Rithala Village, Delhi, India",Delhi,South West Delhi,Delhi
+node/5743508842,77.295538,28.61335,Mayur Vihar,"Mayur Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20313132,79.502702,29.20956,Mayur Vihar,"Mayur Vihar, Haldwani, UT, India",Uttarakhand,Nainital,Haldwani
+way/492998199,77.427543,23.263206,Mayur Vihar,"Mayur Vihar, Bhopal, MP, India",Madhya Pradesh,Bhopal,Bhopal
+way/800825105,76.225979,10.54404,Mayur Vihar,"mayur vihar, Thrissur, KL, India",Kerala,Thrissur,Thrissur
+way/696181173,77.294624,28.594192,Mayur Vihar,"Mayur Vihar Extension, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29488444,76.744217,30.760214,DLF City Court,"DLF Mullanpur, Chandigarh, India",Chandigarh,Chandigarh,Chandigarh
+way/318947538,77.096646,28.496555,DLF City Court,"Cognizant Technology Solutions, Building 6,Tower C, DLF Cyber City, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:20459733,77.081922,28.467755,DLF City Court,"DLF Galleria Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:20460068,77.093951,28.494768,DLF City Court,"DLF Cybercity footpath, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:22574308,77.617245,12.875983,DLF City Court,"DLF Main Road, Bangalore, KA, India",Karnataka,Bangalore,Bangalore
+102028553,82.071838,26.263978,Sultanpur,"Sultanpur, UP, India",Uttar Pradesh,Sultanpur,Sultanpur
+102029629,77.10925,31.95845,Sultanpur,"Sultanpur, HP, India",Himachal Pradesh,Kulu,Sultanpur
+890501323,75.19563,31.21448,Sultanpur,"Sultanpur Lodhi, PB, India",Punjab,Kapurthala,Sultanpur Lodhi
+890505955,77.93476,23.13664,Sultanpur,"Sultanpur, MP, India",Madhya Pradesh,Raisen,Sultanpur
+890504491,78.10894,29.75603,Sultanpur,"Sultanpur, UT, India",Uttarakhand,Haridwar,Sultanpur
+polyline:29882818,79.596489,17.989668,MG Road,"MG road, Warangal, TG, India",Telangana,Warangal,Warangal
+polyline:21342987,88.370492,22.740589,MG Road,"MG Road, Titagarh, WB, India",West Bengal,24 Parganas North,Titagarh
+polyline:21104894,84.3684,24.75038,MG Road,"M.G Road, Aurangabad, BR, India",Bihar,Aurangabad,Aurangabad
+polyline:29865764,72.964755,18.330216,MG Road,"MG Road, Murud, MH, India",Maharashtra,Raigarh,Murud
+polyline:29882760,79.622889,17.148443,MG Road,"MG road, Suryapet, TG, India",Telangana,Nalgonda,Suryapet
+node/927873494,77.0867,28.556463,IGI Airport,"IGI Airport, Delhi, India",Delhi,South West Delhi,Delhi
+10303254,77.12725,28.54532,IGI Airport,"Aura Igi Airport, Delhi, India",Delhi,South West Delhi,Delhi
+node/2833058753,77.122657,28.564835,IGI Airport,"Terminal 1 IGI Airport, Delhi, India",Delhi,South West Delhi,Delhi
+way/542939354,77.086877,28.557036,IGI Airport,"IGI Airport Metro Station, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405609,77.086637,28.553685,IGI Airport,"igi airport t3 road, Delhi, India",Delhi,South West Delhi,Delhi
+node/9584236508,77.241044,28.628191,ITO,"ITO, Delhi, India",Delhi,South West Delhi,Delhi
+node/4440796919,77.245021,28.628205,ITO,"ITO, Delhi, India",Delhi,South West Delhi,Delhi
+node/6362609805,77.246617,28.626342,ITO,"ITO, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20406061,77.240998,28.624717,ITO,"ITO Skywalk, Delhi, India",Delhi,South West Delhi,Delhi
+node/6699155483,77.240211,28.627531,ITO,"ITO Metro Gate No. 1, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3893714,77.09445,28.681866,Udyog Vihar,"Udyog Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+way/634074196,77.067133,28.50073,Udyog Vihar,"Hyatt Place Gurgaon Udyog Vihar, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/9706919851,77.081972,28.491735,Udyog Vihar,"Udyog Vihar, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10302862,77.09219,28.50984,Udyog Vihar,"Country Inn and Suites Udyog Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+6498114,77.0375,28.4705,Udyog Vihar,"The Lemon Tree Hotel - Udyog Vihar, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+85903937,77.211349,28.641689,Paharganj,"Paharganj, Delhi, India",Delhi,South West Delhi,Delhi
+10825365,79.47037,28.39521,Paharganj,"Pahārganj, UP, India",Uttar Pradesh,Bareilly,Pahārganj
+1259425843,79.84038,28.24973,Paharganj,"Paharganj, UP, India",Uttar Pradesh,Pilibhit,Paharganj
+1779886785,82.13893,26.76184,Paharganj,"Paharganj, Faizabad, UP, India",Uttar Pradesh,Ayodhya,Faizabad
+1193211289,81.27692,26.49002,Paharganj,"Paharganj, UP, India",Uttar Pradesh,Rae Bareli,Paharganj
+102030289,77.307538,28.417987,Faridabad Sector 15,"Faridabad, HR, India",Haryana,Faridabad,Faridabad
+node/1572649890,77.307077,28.410762,Faridabad Sector 15,"Faridabad, HR, India",Haryana,Faridabad,Faridabad
+1225790031,85.50748,25.72883,Faridabad Sector 15,"Chak Farīdābād, BR, India",Bihar,Vaishali,Chak Farīdābād
+node/5401642227,77.358157,28.424275,Faridabad Sector 15,"AIMS FARIDABAD, Faridabad, HR, India",Haryana,Faridabad,Faridabad
+1310445797,81.79523,25.89919,Faridabad Sector 15,"Faridabad, UP, India",Uttar Pradesh,Pratapgarh,Faridabad
+1511391183,77.3,28.48333,Indraprastha,"Indraprast, Faridabad, HR, India",Haryana,Faridabad,Faridabad
+node/5818161007,77.094268,28.679078,Peeragarhi,"Peeragarhi Crossing, Delhi, India",Delhi,South West Delhi,Delhi
+node/9544997460,77.095972,28.679124,Peeragarhi,"Peeragarhi Chowk, Delhi, India",Delhi,South West Delhi,Delhi
+node/7138493131,77.094818,28.677585,Peeragarhi,"Aam Aadhmi Polyclinic Peeragarhi, Delhi, India",Delhi,South West Delhi,Delhi
+85928533,77.364272,28.619066,Noida Sector 62,"Sector 62, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+1511099311,76.731435,30.698811,Noida Sector 62,"Sector 62, Ajitgarh, PB, India",Punjab,Rupnagar,Ajitgarh
+85903883,77.188537,28.653351,Karol Bagh,"Karol Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+way/80958871,77.205589,28.614197,Central Secretariat,"Central Secretariat, Delhi, India",Delhi,South West Delhi,Delhi
+85928305,77.205943,28.613332,Central Secretariat,"Central Secretariat, Delhi, India",Delhi,South West Delhi,Delhi
+890509093,77.203044,28.648544,Central Secretariat,"Central, DL, India",Delhi,Central,
+node/7837031919,77.205304,28.615764,Central Secretariat,"Central Board of Indirect Taxes and Customs (CBIC), Delhi, India",Delhi,South West Delhi,Delhi
+node/2671295574,74.843239,12.863404,Central Secretariat,"Mangaluru Central, Mangalore, KA, India",Karnataka,Dakshina Kannada,Mangalore
+node/7018886731,77.149187,28.493751,Ghitorni,"Ghitorni, Delhi, India",Delhi,South West Delhi,Delhi
+node/6071158914,77.152978,28.495298,Ghitorni,"NBCC Ghitorni, Delhi, India",Delhi,South West Delhi,Delhi
+node/6743968673,77.147966,28.493438,Ghitorni,"Ghitorni Village, Delhi, India",Delhi,South West Delhi,Delhi
+node/6912102257,77.138044,28.489125,Ghitorni,"Ghitorni School, Delhi, India",Delhi,South West Delhi,Delhi
+node/7883988272,77.148971,28.494016,Ghitorni,"Ghitorni Metro Station Gate No 2, Delhi, India",Delhi,South West Delhi,Delhi
+1327212299,76.47899,28.18916,Govindpuri,"Govindpuri, HR, India",Haryana,Rewari,Govindpuri
+85934287,78.135922,29.933502,Govindpuri,"Govindpuri, Hardwar, UT, India",Uttarakhand,Haridwar,Hardwar
+85927979,77.264099,28.535017,Govindpuri,"Govindpuri, Delhi, India",Delhi,South West Delhi,Delhi
+node/6465991447,77.030574,28.682434,Mundka,"Mundka, Delhi, India",Delhi,South West Delhi,Delhi
+1511390357,77.02975,28.68012,Mundka,"Mundka, Delhi, India",Delhi,South West Delhi,Delhi
+10263053,77.02975,28.68012,Mundka,"Mūndka, DL, India",Delhi,South West Delhi,Mūndka
+node/6465991448,77.017133,28.683449,Mundka,"Mundka Industrial Area, Delhi, India",Delhi,South West Delhi,Delhi
+node/7138493218,77.026766,28.677265,Mundka,"MCD Dispensary, Mundka, Delhi, India",Delhi,South West Delhi,Delhi
+102029443,76.941393,28.360051,IMT Manesar,"Manesar, HR, India",Haryana,Gurugram,Manesar
+1125838203,77.09922,27.42397,Rajiv Nagar,"Nagar, RJ, India",Rajasthan,Bharatpur,Nagar
+1360152231,79.84308,12.24375,Rajiv Nagar,"Nagar, TN, India",Tamil Nadu,Villupuram,Nagar
+1344010825,80.96581,26.7133,Rajiv Nagar,"Nagar, UP, India",Uttar Pradesh,Lucknow,Nagar
+1343704993,78.55041,27.92319,Rajiv Nagar,"Nagar, UP, India",Uttar Pradesh,Aligarh,Nagar
+1343488669,79.33471,29.89577,Rajiv Nagar,"Nagar, UT, India",Uttarakhand,Almora,Nagar
+node/2184430961,78.394284,25.142712,Basai Dhankot,"Basai, MP, India",Madhya Pradesh,Shivpuri,
+node/5698863055,76.982817,28.464584,Basai Dhankot,"Basai Dhankot, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10483121,78.25843,27.2332,Basai Dhankot,"Basai, UP, India",Uttar Pradesh,Firozabad,Basai
+1292944737,78.33571,25.3778,Basai Dhankot,"Basai, UP, India",Uttar Pradesh,Jhansi,Basai
+way/71689144,77.386177,28.595858,Basai Dhankot,"Basai, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+1293428805,79.66586,26.37442,Rohini,"Rohini, UP, India",Uttar Pradesh,Kanpur Dehat,Rohini
+1276938409,87.09006,22.16404,Rohini,"Rohini, WB, India",West Bengal,Paschim Medinipur,Rohini
+1242651331,83.69089,21.81919,Rohini,"Rohini, OR, India",Odisha,Sundargarh,Rohini
+1225817417,75.09421,21.38935,Rohini,"Rohini, MH, India",Maharashtra,Dhule,Rohini
+1209487415,74.86248,20.37022,Rohini,"Rohini, India",,,Rohini
+85928361,77.253228,28.549182,Nehru Place,"Nehru Place, Delhi, India",Delhi,South West Delhi,Delhi
+890504031,77.239809,28.567411,Lajpat Nagar,"Lajpat Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+85933219,80.911231,26.871035,Lajpat Nagar,"Lajpat Nagar, Lucknow, UP, India",Uttar Pradesh,Lucknow,Lucknow
+node/6196100477,77.249297,28.565871,Vinobapuri,"Vinobapuri, Delhi, India",Delhi,South West Delhi,Delhi
+node/6112995939,77.248552,28.56586,Vinobapuri,"Vinobapuri Metro Gate No. 1, Delhi, India",Delhi,South West Delhi,Delhi
+node/6198752464,77.25081,28.565979,Vinobapuri,"Vinobapuri Metro Gate No. 2, Delhi, India",Delhi,South West Delhi,Delhi
+1209759861,79.87257,28.70441,Janakpuri,"Janakpuri, UP, India",Uttar Pradesh,Pilibhit,Janakpuri
+85928581,77.087322,28.621949,Janakpuri,"Janakpuri, Delhi, India",Delhi,South West Delhi,Delhi
+node/7018316590,77.072657,28.459343,Huda City Centre,"HUDA City Centre, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/4406070173,77.071673,28.458474,Huda City Centre,"HUDA City Centre Gate No. 4, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:22304742,78.455238,17.409282,Huda City Centre,"City Center, Hyderabad, AP, India",Andhra Pradesh,Hyderabad,Hyderabad
+relation/3295870,77.045129,28.400527,Huda City Centre,"HUDA City Centre to Badshahpur Metro Feeder Bus, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29594031,77.355823,28.57714,Huda City Centre,"City Center Marg, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+85903905,77.177731,28.520829,Mehrauli,"Mehrauli, Delhi, India",Delhi,South West Delhi,Delhi
+1326982061,83.42901,25.49712,Mehrauli,"Mehrauli, UP, India",Uttar Pradesh,Ghazipur,Mehrauli
+1276490581,84.84996,25.73018,Mehrauli,"Mehrauli, BR, India",Bihar,Saran,Mehrauli
+102030233,77.432251,28.686014,Ghaziabad,"Ghaziabad, UP, India",Uttar Pradesh,Ghaziabad,Ghaziabad
+1226036989,73.80217,33.70466,Ghaziabad,"Ghaziabad, JK, India",Azad Kashmir,Sudhnoti,Ghaziabad
+node/6196100481,77.258598,28.572423,Ashram,"Ashram, Delhi, India",Delhi,South West Delhi,Delhi
+way/1128018181,76.45432,15.339041,Ashram,"Ashram, KA, India",Karnataka,Bellary,
+node/8273034046,78.345522,30.10627,Ashram,"Ashram, UT, India",Uttarakhand,Pauri Garhwal,
+way/788996351,81.804379,17.056057,Ashram,"Ashram, AP, India",Andhra Pradesh,East Godavari,
+node/3804786666,76.8434,9.367226,Ashram,"Ashramam(Shubhanada Santhi Ashram), KL, India",Kerala,Pathanamthitta,
+polyline:22572904,80.199412,12.936003,Aya Nagar,"Chittibabu nagar - Ambal Nagar, Chennai, TN, India",Tamil Nadu,Chennai,Chennai
+polyline:20677751,78.02296,27.208864,Aya Nagar,"shanti nagar,kamla nagar, Agra, UP, India",Uttar Pradesh,Agra,Agra
+way/309530544,79.109871,21.118751,Aya Nagar,"Chakradhar Nagar Ground, Nagpur, MH, India",Maharashtra,Nagpur,Nagpur
+node/4444155006,77.520595,12.912895,Aya Nagar,"Rajarajeshwari Nagar Police Station, Bangalore, KA, India",Karnataka,Bangalore,Bangalore
+way/674691648,75.824085,22.727988,Aya Nagar,"Sukhdev Nagar Garden, Indore, MP, India",Madhya Pradesh,Indore,Indore
+102028575,77.025928,28.994527,Sonipat,"Sonipat, HR, India",Haryana,Sonepat,Sonipat
+890509439,76.968205,29.01947,Sonipat,"Sonepat, HR, India",Haryana,Sonepat,
+85927935,77.154465,28.529489,Vasant Kunj,"Vasant Kunj Sector A, Delhi, India",Delhi,South West Delhi,Delhi
+85928207,77.095682,28.669953,Paschim Vihar,"Paschim Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+102030533,79.583895,24.919816,Chhatarpur,"Chhatarpur, MP, India",Madhya Pradesh,Chhatarpur,Chhatarpur
+1360238163,77.2684,24.09749,Chhatarpur,"Chhatarpur, MP, India",Madhya Pradesh,Guna,Chhatarpur
+1360224917,78.92779,23.06477,Chhatarpur,"Chhatarpur, MP, India",Madhya Pradesh,Narsinghpur,Chhatarpur
+1360036957,82.22143,20.77323,Chhatarpur,"Chhatarpur, CT, India",Chhattisgarh,Raipur,Chhatarpur
+1360025665,80.03115,23.28571,Chhatarpur,"Chhatarpur, MP, India",Madhya Pradesh,Jabalpur,Chhatarpur
+102029443,76.941393,28.360051,Manesar,"Manesar, HR, India",Haryana,Gurugram,Manesar
+node/2977223663,77.99861,27.199294,Delhi Gate,"Big Bazzar Delhi Gate, Agra, Agra, UP, India",Uttar Pradesh,Agra,Agra
+polyline:20677817,77.998731,27.198521,Delhi Gate,"Delhi Gate, Agra, Agra, UP, India",Uttar Pradesh,Agra,Agra
+polyline:21141175,73.694578,24.584832,Delhi Gate,"Delhi Gate-ki-Ander, Udaipur, RJ, India",Rajasthan,Udaipur,Udaipur
+polyline:20405849,77.180163,28.545722,Delhi Gate,"IIT Delhi JNU Gate Road, Delhi, India",Delhi,South West Delhi,Delhi
+node/3927773290,77.198591,28.543746,Delhi Gate,"IIT Delhi Main Guest House, Delhi, India",Delhi,South West Delhi,Delhi
+1293195397,77.22657,30.00748,Model Town,"Model Town, HR, India",Haryana,Yamuna Nagar,Model Town
+1209503719,76.68565,30.14865,Model Town,"Model Town, HR, India",Haryana,Kurukshetra,Model Town
+890506433,78.000021,27.16804,Model Town,"Model Town, Agra, UP, India",Uttar Pradesh,Agra,Agra
+85928585,77.188911,28.708155,Model Town,"Model Town, Delhi, India",Delhi,South West Delhi,Delhi
+way/350757313,77.081744,28.494594,Udyog Vihar Phase 4,"Plot 36 Udyog Vihar Phase 4, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/350757349,77.082268,28.495554,Udyog Vihar Phase 4,"Plot 82-B Udyog Vihar Phase 4, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+85928557,77.081229,28.503869,Udyog Vihar Phase 4,"Udyog Vihar Sector 19 Phase 4, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/4825924897,77.091516,28.50948,Udyog Vihar Phase 4,"406 Udyog Vihar Phase 3 Road, Delhi, India",Delhi,South West Delhi,Delhi
+way/414380646,77.08546,28.497939,Udyog Vihar Phase 4,"465 Udyog Vihar Phase 5, Sector 19, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:20313291,79.523675,29.233586,Saket A Block,"Saket, Haldwani, UT, India",Uttarakhand,Nainital,Haldwani
+way/673933551,75.897471,22.724229,Saket A Block,"Saket Garden, Indore, MP, India",Madhya Pradesh,Indore,Indore
+way/673933549,75.898264,22.722323,Saket A Block,"Saket Nagar Bagicha, Indore, MP, India",Madhya Pradesh,Indore,Indore
+polyline:20313609,79.49195,29.206423,Saket A Block,"Saket Colony, Haldwani, UT, India",Uttarakhand,Nainital,Haldwani
+polyline:20706903,75.768836,26.895405,Saket A Block,"Saket marg, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+node/5569795451,77.186939,28.52655,Qutub Minar,"Qutub Minar, Delhi, India",Delhi,South West Delhi,Delhi
+node/1486856990,77.187727,28.52542,Qutub Minar,"Qutub Minar Tickets, Delhi, India",Delhi,South West Delhi,Delhi
+node/5426391724,77.184492,28.511787,Qutub Minar,"Qutub Minar Metro Station, Delhi, India",Delhi,South West Delhi,Delhi
+node/5371748022,77.186174,28.514105,Qutub Minar,"Qutub Minar Metro Station, Delhi, India",Delhi,South West Delhi,Delhi
+890502247,78.455283,17.488895,Qutub Minar,"Qutubullapur, Hyderabad, TG, India",Telangana,Hyderabad,Hyderabad
+102030321,68.968854,22.24338,Dwarka Mor,"Dwarka, GJ, India",Gujarat,Jamnagar,Dwarka
+11875527,69.65498,22.20253,Dwarka Mor,"Jamnagar, GJ, India",Gujarat,Jamnagar,
+node/6541854255,77.022763,28.614936,Dwarka Mor,"Dwarka, Delhi, India",Delhi,South West Delhi,Delhi
+node/1063868213,68.980147,22.250489,Dwarka Mor,"Dwarka, GJ, India",Gujarat,Jamnagar,Dwarka
+node/8422041909,72.85196,19.224062,Dwarka Mor,"dwarka, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+1343605085,81.49035,26.5088,Azadpur,"Azadpur, UP, India",Uttar Pradesh,Rae Bareli,Azadpur
+1327386293,78.18447,28.79083,Azadpur,"Azadpur, UP, India",Uttar Pradesh,Amroha,Azadpur
+1327069743,79.60569,26.52745,Azadpur,"Azadpur, UP, India",Uttar Pradesh,Auraiya,Azadpur
+1293140121,78.27917,27.87513,Azadpur,"Azadpur, UP, India",Uttar Pradesh,Aligarh,Azadpur
+890511233,77.17827,28.70532,Azadpur,"Azadpur, Delhi, India",Delhi,South West Delhi,Delhi
+1310454865,76.10152,22.46376,Okhla,"Okhla, MP, India",Madhya Pradesh,West Nimar,Okhla
+1209082985,75.49758,32.69978,Okhla,"Okhla, India",Jammu and Kashmir,Kathua,Okhla
+1511390345,77.27787,28.53446,Okhla,"Okhla Industrial Development Area, Delhi, India",Delhi,South West Delhi,Delhi
+890511287,77.2388,28.641645,Chandni Chowk,"Chandni Chowk, Delhi, India",Delhi,South West Delhi,Delhi
+85928099,77.229887,28.655673,Chandni Chowk,"Chandni Chowk Area, Delhi, India",Delhi,South West Delhi,Delhi
+way/265847410,77.210236,28.574454,INA Market,"INA Market, Delhi, India",Delhi,South West Delhi,Delhi
+6619390,77.21148,28.57774,INA Market,"INA Market, Delhi, India",Delhi,South West Delhi,Delhi
+890505749,73.40016,22.30505,INA Market,"Vaghodia INA, GJ, India",Gujarat,Vadodara,Vaghodia INA
+way/213852696,88.352592,22.559672,INA Market,"New Market, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+node/1524381523,77.574682,12.96089,INA Market,"Krishna Rajendra Market, Bangalore, KA, India",Karnataka,Bangalore,Bangalore
+85928497,77.077547,28.467206,Sushant Lok,"Sushant Lok, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+85928573,77.312248,28.653786,Anand Vihar,"Anand Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594264,77.219622,28.631678,Rajiv Chowk,"Rajiv Chowk, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3905298,77.218534,28.64211,New Delhi Railway Station,"New Delhi Railway Station, Delhi, India",Delhi,South West Delhi,Delhi
+node/6134779778,77.218927,28.6437,New Delhi Railway Station,"Police Station New Delhi Railway Station, Delhi, India",Delhi,South West Delhi,Delhi
+way/34940943,77.221768,28.641779,New Delhi Railway Station,"New Delhi Railway Station (Ajmeri Gate), Delhi, India",Delhi,South West Delhi,Delhi
+node/6989022856,77.223786,28.643076,New Delhi Railway Station,"New Delhi Railway Station Gate Number 2, Delhi, India",Delhi,South West Delhi,Delhi
+node/913095905,77.227715,28.660905,New Delhi Railway Station,"Delhi Junction, Delhi, India",Delhi,South West Delhi,Delhi
+1344114979,76.47708,30.16623,Samaypur Badli,"Badli, PB, India",Punjab,Patiala,Badli
+1343901467,78.26159,27.72945,Samaypur Badli,"Badli, UP, India",Uttar Pradesh,Aligarh,Badli
+1326773897,81.77472,27.09166,Samaypur Badli,"Badli, UP, India",Uttar Pradesh,Gonda,Badli
+1293054271,77.35776,24.55673,Samaypur Badli,"Badli, MP, India",Madhya Pradesh,Guna,Badli
+1276204831,77.14454,27.84857,Samaypur Badli,"Badli, HR, India",Haryana,Mewat,Badli
+1125838203,77.09922,27.42397,Kanhaiya Nagar,"Nagar, RJ, India",Rajasthan,Bharatpur,Nagar
+1360152231,79.84308,12.24375,Kanhaiya Nagar,"Nagar, TN, India",Tamil Nadu,Villupuram,Nagar
+1344010825,80.96581,26.7133,Kanhaiya Nagar,"Nagar, UP, India",Uttar Pradesh,Lucknow,Nagar
+1343704993,78.55041,27.92319,Kanhaiya Nagar,"Nagar, UP, India",Uttar Pradesh,Aligarh,Nagar
+1343488669,79.33471,29.89577,Kanhaiya Nagar,"Nagar, UT, India",Uttarakhand,Almora,Nagar
+1310157809,81.80577,25.7294,Madipur,"Madipur, UP, India",Uttar Pradesh,Allahabad,Madipur
+1225888367,81.55894,27.25016,Madipur,"Madipur, UP, India",Uttar Pradesh,Bahraich,Madipur
+1511390857,77.1215,28.67318,Madipur,"Madipur, Delhi, India",Delhi,South West Delhi,Delhi
+1125838203,77.09922,27.42397,Uttam Nagar,"Nagar, RJ, India",Rajasthan,Bharatpur,Nagar
+1360152231,79.84308,12.24375,Uttam Nagar,"Nagar, TN, India",Tamil Nadu,Villupuram,Nagar
+1344010825,80.96581,26.7133,Uttam Nagar,"Nagar, UP, India",Uttar Pradesh,Lucknow,Nagar
+1343704993,78.55041,27.92319,Uttam Nagar,"Nagar, UP, India",Uttar Pradesh,Aligarh,Nagar
+1343488669,79.33471,29.89577,Uttam Nagar,"Nagar, UT, India",Uttarakhand,Almora,Nagar
+890504625,85.543801,24.886594,Nawada,"Nawada, BR, India",Bihar,Nawada,Nawada
+1260233853,77.33438,29.99021,Nawada,"Nawada, UP, India",Uttar Pradesh,Saharanpur,Nawada
+1260222987,85.30788,24.32183,Nawada,"Nawada, JH, India",Jharkhand,Chatra,Nawada
+1260133725,86.38792,26.16234,Nawada,"Nawada, BR, India",Bihar,Madhubani,Nawada
+1260121053,84.76217,26.55875,Nawada,"Nawada, BR, India",Bihar,East Champaran,Nawada
+85928329,77.195455,28.574104,Sarojini Nagar,"Sarojini Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+1270642,77.02635,28.4601,Gurgaon Sector 56,"Gurgaon, HR, India",Haryana,Gurugram,Gurgaon
+node/1774430929,77.011193,28.489101,Gurgaon Sector 56,"Gurgaon, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7168803799,77.027117,28.474246,Gurgaon Sector 56,"GH Gurgaon, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10547511,82.15916,25.49781,Gurgaon Sector 56,"Gurgaon, UP, India",Uttar Pradesh,Allahabad,Gurgaon
+1344097555,87.86786,26.32458,Gurgaon Sector 56,"Gurgaon, BR, India",Bihar,Kishanganj,Gurgaon
+85928647,77.212385,28.534341,Malviya Nagar,"Malviya Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+102030947,72.961052,22.559118,Anand Vihar ISBT,"Anand, GJ, India",Gujarat,Anand,Anand
+node/5818161570,77.316222,28.64711,Anand Vihar ISBT,"Anand Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+way/52081141,77.315289,28.64673,Anand Vihar ISBT,"Anand Vihar Interstate Bus Terminal, Delhi, India",Delhi,South West Delhi,Delhi
+node/944845341,77.3155,28.648851,Anand Vihar ISBT,"Anand Vihar Terminus, Delhi, India",Delhi,South West Delhi,Delhi
+85928573,77.312248,28.653786,Anand Vihar ISBT,"Anand Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+1277847,75.54525,26.82399,Vatika Chowk,"Vatika Infotech City, RJ, India",Rajasthan,Jaipur,
+890501079,75.54525,26.82399,Vatika Chowk,"Vatika Infotech City, RJ, India",Rajasthan,Jaipur,Vatika Infotech City
+way/315436611,85.114876,25.601804,Vatika Chowk,"Rajdhani Vatika, Patna, BR, India",Bihar,Patna,Patna
+way/670228754,75.88185,22.758849,Vatika Chowk,"Gitanjali Vatika, Indore, MP, India",Madhya Pradesh,Indore,Indore
+way/746282589,73.022783,19.043204,Vatika Chowk,"Ashok Vatika, Navi Mumbai, MH, India",Maharashtra,Thane,Navi Mumbai
+85928043,77.135444,28.712134,Pitampura,"Pitampura, Delhi, India",Delhi,South West Delhi,Delhi
+7290413,77.13126,28.68964,Pitampura,"Pitampura, DL, India",Delhi,South West Delhi,Pitampura
+1343619251,75.74622,25.25844,Pitampura,"Pitampura, RJ, India",Rajasthan,Bundi,Pitampura
+1276139697,77.10096,28.90811,Pitampura,"Pitampura, HR, India",Haryana,Sonepat,Pitampura
+way/171546940,77.130138,28.700255,Pitampura,"Pitampura, Delhi, India",Delhi,South West Delhi,Delhi
+85928195,77.229114,28.666766,Kashmere Gate,"Kashmere Gate, Delhi, India",Delhi,South West Delhi,Delhi
+node/6570786735,72.659191,23.920927,Kadarpur,"Kadarpur, GJ, India",Gujarat,Mahesana,
+1293144211,81.2188,26.96641,Kadarpur,"Kadarpur, UP, India",Uttar Pradesh,Barabanki,Kadarpur
+1226285915,81.77163,26.74848,Kadarpur,"Kadarpur, UP, India",Uttar Pradesh,Ayodhya,Kadarpur
+1276920553,77.74993,24.20033,Kadarpur,"Kadarpur, MP, India",Madhya Pradesh,Vidisha,Kadarpur
+1209988427,75.11096,20.0626,Kadarpur,"Kadarpur, MH, India",Maharashtra,Aurangabad,Kadarpur
+1360137171,77.34444,28.78792,Badshahpur,"Badshahpur, UP, India",Uttar Pradesh,Ghaziabad,Badshahpur
+1360127981,77.36111,29.36827,Badshahpur,"Badshahpur, UP, India",Uttar Pradesh,Muzaffarnagar,Badshahpur
+1344109151,78.07478,29.49783,Badshahpur,"Badshahpur, UP, India",Uttar Pradesh,Bijnor,Badshahpur
+1326774071,78.75845,27.24801,Badshahpur,"Badshahpur, UP, India",Uttar Pradesh,Mainpuri,Badshahpur
+1310669185,75.395,31.44451,Badshahpur,"Badshahpur, PB, India",Punjab,Kapurthala,Badshahpur
+1511390531,77.25133,28.54855,Kalkaji,"Kalkaji Devi, Delhi, India",Delhi,South West Delhi,Delhi
+85903881,77.256731,28.542302,Kalkaji,"Kalkaji, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29595289,77.209427,28.69422,GTB Nagar,"GTB Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594049,77.313902,28.680393,GTB Nagar,"G.T.B Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594050,77.315513,28.676143,GTB Nagar,"G.T.B Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29593968,77.314675,28.679053,GTB Nagar,"GTB Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:22572904,80.199412,12.936003,GTB Nagar,"Chittibabu nagar - Ambal Nagar, Chennai, TN, India",Tamil Nadu,Chennai,Chennai
+85928251,77.230141,28.612619,India Gate,"India Gate, Delhi, India",Delhi,South West Delhi,Delhi
+node/7098311425,82.198347,24.044877,Sarai Kale Khan,"CHC Sarai, MP, India",Madhya Pradesh,Singrauli,
+polyline:21994346,73.874157,19.20857,Sarai Kale Khan,"Sarai Peth, Junnar, MH, India",Maharashtra,Pune,Junnar
+polyline:29670615,85.179618,25.849085,Sarai Kale Khan,"Lalganj - Sarai Road, BR, India",Bihar,Vaishali,
+polyline:20405373,77.233365,28.659456,Sarai Kale Khan,"More Sarai Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405106,77.290745,28.673679,Sarai Kale Khan,"Makki Sarai Railway Road, Delhi, India",Delhi,South West Delhi,Delhi
+890510983,76.77858,28.32547,Pataudi Chowk,"Pataudi, HR, India",Haryana,Gurugram,Pataudi
+node/5698863060,76.752238,28.347879,Pataudi Chowk,"Pataudi Road, HR, India",Haryana,Gurugram,
+way/824913115,76.782732,28.319774,Pataudi Chowk,"Pataudi Palace, HR, India",Haryana,Gurugram,
+polyline:31580643,77.007195,28.452032,Pataudi Chowk,"Pataudi Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10554498,76.67042,28.31912,Pataudi Chowk,"Pataudi Distributary, HR, India",Haryana,Gurugram,
+node/663759851,77.312395,28.67572,Jhilmil,"Jhilmil, Delhi, India",Delhi,South West Delhi,Delhi
+1259421943,82.2556,27.01663,Jhilmil,"Jhilmil, UP, India",Uttar Pradesh,Gonda,Jhilmil
+1343702433,86.17708,25.02454,Jhilmil,"Jhilmil, BR, India",Bihar,Jamui,Jhilmil
+1276177981,84.80268,24.95819,Jhilmil,"Jhilmil, BR, India",Bihar,Gaya,Jhilmil
+node/7138632227,77.311751,28.670789,Jhilmil,"DGD Jhilmil, Delhi, India",Delhi,South West Delhi,Delhi
+85903833,77.219917,28.631295,Connaught Place,"Connaught Place, Delhi, India",Delhi,South West Delhi,Delhi
+node/7018886729,77.212534,28.586598,Jor Bagh,"Jor Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+node/5715392990,77.212723,28.585463,Jor Bagh,"Jor Bagh (Elevator), Delhi, India",Delhi,South West Delhi,Delhi
+85928309,77.216711,28.587772,Jor Bagh,"Jor Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+node/5715392712,77.21311,28.586304,Jor Bagh,"Fire Station Jor Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405571,77.217735,28.584035,Jor Bagh,"Jor Bagh Lane, Delhi, India",Delhi,South West Delhi,Delhi
+node/3549827390,77.233778,28.662599,Kashmere Gate ISBT,"Ambedkar university (AUD) Entrance gate, Delhi, India",Delhi,South West Delhi,Delhi
+way/80431079,77.228543,28.667273,Kashmere Gate ISBT,"Kashmere Gate, Delhi, India",Delhi,South West Delhi,Delhi
+node/6168885114,77.229498,28.667805,Kashmere Gate ISBT,"Kashmere Gate, Delhi, India",Delhi,South West Delhi,Delhi
+85928195,77.229114,28.666766,Kashmere Gate ISBT,"Kashmere Gate, Delhi, India",Delhi,South West Delhi,Delhi
+10830167,79.70308,28.33555,Khandsa,"Khandsara, UP, India",Uttar Pradesh,Pilibhit,Khandsara
+1193180649,82.31107,26.28165,Khandsa,"Khandsara, UP, India",Uttar Pradesh,Sultanpur,Khandsara
+1226494955,78.3989,29.25728,Khandsa,"Khandsal, UP, India",Uttar Pradesh,Bijnor,Khandsal
+1344208897,81.31663,22.22374,Khandsa,"Khandsara, CT, India",Chhattisgarh,Kabirdham,Khandsara
+10584965,78.5539,28.9395,Khandsa,"Khandsāl, UP, India",Uttar Pradesh,Moradabad,Khandsāl
+1259364709,75.22148,19.93611,Kherki Daula Toll,"Daulatabad, MH, India",Maharashtra,Aurangabad,Daulatabad
+890501795,88.32989,25.32605,Kherki Daula Toll,"Daulatpur, WB, India",West Bengal,Dakshin Dinajpur,Daulatpur
+10435453,76.30871,30.17514,Kherki Daula Toll,"Kherki, PB, India",Punjab,Patiala,Kherki
+1192957847,77.23971,29.03693,Kherki Daula Toll,"Kherki, UP, India",Uttar Pradesh,Baghpat,Kherki
+10524413,76.2636,27.87339,Kherki Daula Toll,"Kherki, RJ, India",Rajasthan,Alwar,Kherki
+node/7018301883,77.207806,28.56686,AIIMS,"AIIMS, Delhi, India",Delhi,South West Delhi,Delhi
+node/9364161511,88.53007,22.97448,AIIMS,"AIIMS KALYANI, WB, India",West Bengal,Nadia,
+way/775912805,74.928351,30.15834,AIIMS,"AIIMS Bathinda, PB, India",Punjab,Bathinda,
+way/490265841,85.774054,20.230948,AIIMS,"AIIMS, Bhubaneswar, OR, India",Odisha,Khordha,
+node/7130306819,77.209634,28.567441,AIIMS,"AIIMS Emergency, Delhi, India",Delhi,South West Delhi,Delhi
+node/9415047899,77.295282,28.641418,Preet Vihar,"Preet Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+node/8130220380,77.301627,28.646722,Preet Vihar,"NutrioBox Preet Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+way/700070815,77.295285,28.641482,Preet Vihar,"Preet Vihar Metro Station, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3813400,77.295418,28.638615,Preet Vihar,"Preet Vihar Commercial Centre, Delhi, India",Delhi,South West Delhi,Delhi
+way/479651142,77.290408,28.633192,Preet Vihar,"Preet Vihar Park 2, Delhi, India",Delhi,South West Delhi,Delhi
+1293741007,77.69183,11.38931,Indirapuram,"Indirapuram, TN, India",Tamil Nadu,Erode,Indirapuram
+85928551,77.369259,28.633667,Indirapuram,"Indirapuram, Ghaziabad, UP, India",Uttar Pradesh,Ghaziabad,Ghaziabad
+85931313,73.737937,18.587703,Adarsh Nagar,"Adarsh Nagar, Hinjawadi, MH, India",Maharashtra,Pune,Hinjawadi
+node/6743968673,77.147966,28.493438,Ghitorni Village,"Ghitorni Village, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:21445323,83.947149,21.386179,Ghitorni Village,"Village, OR, India",Odisha,Sambalpur,
+node/7463300091,73.933952,18.483351,Ghitorni Village,"Ganga Village Garden, Pune, MH, India",Maharashtra,Pune,Pune
+way/987053217,76.594724,10.586985,Ghitorni Village,"Post Office Nemmara Old Village, KL, India",Kerala,Palakkad,
+way/1086950416,77.316801,28.497563,Ghitorni Village,"Shiv Mandir Meethapur Gujjar village, Delhi, India",Delhi,South West Delhi,Delhi
+node/7018316586,77.22503,28.676851,Civil Lines Gurgaon,"Civil Lines, Delhi, India",Delhi,South West Delhi,Delhi
+node/6783208321,75.781249,26.909678,Civil Lines Gurgaon,"Civil Lines, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+way/185805732,74.948372,30.198574,Civil Lines Gurgaon,"Civil Lines Club, Bathinda, PB, India",Punjab,Bathinda,Bathinda
+way/701826506,81.839027,25.448443,Civil Lines Gurgaon,"Civil Lines Bus Station, Prayagraj, UP, India",Uttar Pradesh,Allahabad,Prayagraj
+node/7034673913,80.34651,26.476009,Civil Lines Gurgaon,"CGHS Dispensary, Civil Lines, Kanpur, UP, India",Uttar Pradesh,Kanpur,Kanpur
+102031135,76.858474,28.203963,Bhiwadi,"Bhiwadi, RJ, India",Rajasthan,Alwar,Bhiwadi
+node/7944298554,80.267272,26.496489,Vishwavidyalaya,"Vishwavidyalaya, Kanpur, UP, India",Uttar Pradesh,Kanpur,Kanpur
+way/531767683,78.122613,29.920896,Vishwavidyalaya,"Gurukula Kangri Vishwavidyalaya, Hardwar, UT, India",Uttarakhand,Haridwar,Hardwar
+way/26681638,82.993814,25.266866,Vishwavidyalaya,"Kashi Hindu Vishwavidyalaya, Varanasi, UP, India",Uttar Pradesh,Varanasi,Varanasi
+way/392264774,79.309181,21.390225,Vishwavidyalaya,"Kavikulguru Sanskrit Vishwavidyalaya, MH, India",Maharashtra,Nagpur,
+polyline:20405324,77.219736,28.690005,Vishwavidyalaya,"Vishwavidyalaya Marg, Delhi, India",Delhi,South West Delhi,Delhi
+node/10314380321,77.286815,28.636459,Nirman Vihar,"Nirman Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3813399,77.290808,28.634759,Nirman Vihar,"Nirman Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+way/674921388,79.016873,10.727582,Nirman Vihar,"Nirman Vihar, TN, India",Tamil Nadu,Thanjavur,
+polyline:22674673,79.0172,10.727921,Nirman Vihar,"Nirman Vihar Entrance, TN, India",Tamil Nadu,Thanjavur,
+way/354023544,72.860108,19.129298,Nirman Vihar,"Nirman Vihar CHS, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+85928333,77.189209,28.594777,Chanakyapuri,"Chanakyapuri, Delhi, India",Delhi,South West Delhi,Delhi
+1270642,77.02635,28.4601,Gurgaon Sector 29,"Gurgaon, HR, India",Haryana,Gurugram,Gurgaon
+node/1774430929,77.011193,28.489101,Gurgaon Sector 29,"Gurgaon, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7168803799,77.027117,28.474246,Gurgaon Sector 29,"GH Gurgaon, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10547511,82.15916,25.49781,Gurgaon Sector 29,"Gurgaon, UP, India",Uttar Pradesh,Allahabad,Gurgaon
+1344097555,87.86786,26.32458,Gurgaon Sector 29,"Gurgaon, BR, India",Bihar,Kishanganj,Gurgaon
+node/6465991436,77.146124,28.672995,Punjabi Bagh,"Punjabi Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3682298,77.128302,28.668061,Punjabi Bagh,"Punjabi Bagh, Delhi, India",Delhi,South West Delhi,Delhi
+node/6458202843,77.139211,28.672766,Punjabi Bagh,"Punjabi Bagh West, Delhi, India",Delhi,South West Delhi,Delhi
+node/4472297491,77.140214,28.673825,Punjabi Bagh,"Punjabi Bagh Chowk, Delhi, India",Delhi,South West Delhi,Delhi
+10263148,77.12701,28.66448,Punjabi Bagh,"Punjabi Bagh West, Delhi, India",Delhi,South West Delhi,Delhi
+node/9378787102,77.119498,28.6473,Rajouri Garden,"Talli Station Rajouri Garden, Delhi, India",Delhi,South West Delhi,Delhi
+node/6763880406,77.123356,28.649107,Rajouri Garden,"Rajouri Garden, Delhi, India",Delhi,South West Delhi,Delhi
+node/5848633382,77.12685,28.645323,Rajouri Garden,"Rajouri Garden, Delhi, India",Delhi,South West Delhi,Delhi
+node/1374470978,77.12061,28.650979,Rajouri Garden,"Wave Rajouri Garden, Delhi, India",Delhi,South West Delhi,Delhi
+node/5848637197,77.127007,28.645644,Rajouri Garden,"Rajouri Garden Market, Delhi, India",Delhi,South West Delhi,Delhi
+102031133,77.381182,28.534601,Noida Sector 18,"Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+102031095,77.510051,28.466676,Noida Sector 18,"Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+node/6537260850,77.356164,28.574733,Noida Sector 18,"Noida City Centre, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+polyline:31580734,77.495958,28.452974,Noida Sector 18,"Noida-Greater Noida Expressway, Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+polyline:31582413,77.398824,28.503459,Noida Sector 18,"Noida-Greater Noida Expressway, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+1125838203,77.09922,27.42397,Laxmi Nagar,"Nagar, RJ, India",Rajasthan,Bharatpur,Nagar
+1360152231,79.84308,12.24375,Laxmi Nagar,"Nagar, TN, India",Tamil Nadu,Villupuram,Nagar
+1344010825,80.96581,26.7133,Laxmi Nagar,"Nagar, UP, India",Uttar Pradesh,Lucknow,Nagar
+1343704993,78.55041,27.92319,Laxmi Nagar,"Nagar, UP, India",Uttar Pradesh,Aligarh,Nagar
+1343488669,79.33471,29.89577,Laxmi Nagar,"Nagar, UT, India",Uttarakhand,Almora,Nagar
+85928209,77.204192,28.56103,Green Park,"Green Park Extension, Delhi, India",Delhi,South West Delhi,Delhi
+1360242101,78.48685,12.51609,Keshav Puram,"Puram, TN, India",Tamil Nadu,Vellore,Puram
+1360239943,78.05866,12.3455,Keshav Puram,"Puram, TN, India",Tamil Nadu,Dharmapuri,Puram
+1293249581,77.93497,12.54443,Keshav Puram,"Puram, TN, India",Tamil Nadu,Krishnagiri,Puram
+way/483407272,75.79918,26.901314,Udyog Bhawan,"UDYOG BHAWAN, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+node/6371772374,77.213107,28.610393,Udyog Bhawan,"Udyog Bhawan, Delhi, India",Delhi,South West Delhi,Delhi
+node/4308722515,74.591667,16.853133,Udyog Bhawan,"Udyog Bhawan, Sangli, MH, India",Maharashtra,Sangli,Sangli
+node/6086075040,85.148,25.615527,Udyog Bhawan,"Udyog Bhawan, Patna, BR, India",Bihar,Patna,Patna
+102030699,83.168716,19.910275,Udyog Bhawan,"Bhawanipatna, OR, India",Odisha,Kalahandi,Bhawanipatna
+1226694439,77.75516,22.63243,Saket,"Saket, MP, India",Madhya Pradesh,Hoshangabad,Saket
+1226481151,81.97291,22.00075,Saket,"Saket, CT, India",Chhattisgarh,Bilaspur,Saket
+890506931,77.663383,28.974506,Saket,"Saket, Meerut, UP, India",Uttar Pradesh,Meerut,Meerut
+85928609,77.20925,28.522021,Saket,"Saket, Delhi, India",Delhi,South West Delhi,Delhi
+890511421,77.213072,28.613789,New Colony,"New Delhi, DL, India",Delhi,New Delhi,
+1261481,77.22445,28.63576,New Colony,"New Delhi, DL, India",Delhi,South West Delhi,New Delhi
+node/6047132416,77.252158,28.548239,New Colony,"New Vishal Corner, Delhi, India",Delhi,South West Delhi,Delhi
+890507729,90.568633,26.44876,New Colony,"New Bongaigaon Railway Colony, AS, India",Assam,Bongaigaon,New Bongaigaon Railway Colony
+node/7193086022,77.239059,28.575675,New Colony,"New Bharat Music House, Delhi, India",Delhi,South West Delhi,Delhi
+890506213,77.215738,28.665888,Tis Hazari,"Tis Hazari, Delhi, India",Delhi,South West Delhi,Delhi
+node/561316983,77.216631,28.667163,Tis Hazari,"Tis Hazari, Delhi, India",Delhi,South West Delhi,Delhi
+way/464265890,77.216543,28.667181,Tis Hazari,"Tis Hazari Metro Station, Delhi, India",Delhi,South West Delhi,Delhi
+way/265817832,77.217471,28.665753,Tis Hazari,"Tis Hazari District Courts, Delhi, India",Delhi,South West Delhi,Delhi
+1254317,77.86776,8.33702,Tis Hazari,"Tisaiyanvilai, TN, India",Tamil Nadu,Tirunelveli,Tisaiyanvilai
+polyline:29593247,77.031121,28.462243,Sadar Bazar Gurgaon,"Sadar Bazar Main Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+102031133,77.381182,28.534601,Noida Film City,"Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+102031095,77.510051,28.466676,Noida Film City,"Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+node/6537260850,77.356164,28.574733,Noida Film City,"Noida City Centre, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+polyline:31580734,77.495958,28.452974,Noida Film City,"Noida-Greater Noida Expressway, Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+polyline:31582413,77.398824,28.503459,Noida Film City,"Noida-Greater Noida Expressway, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+polyline:29595017,77.22258,28.631255,Barakhamba Road,"Barakhamba Road, Delhi, India",Delhi,South West Delhi,Delhi
+node/7018316587,77.221727,28.686322,Vidhan Sabha,"Vidhan Sabha, Delhi, India",Delhi,South West Delhi,Delhi
+way/212876908,80.943913,26.843366,Vidhan Sabha,"Vidhan Sabha, Lucknow, UP, India",Uttar Pradesh,Lucknow,Lucknow
+way/757525132,75.797523,26.892376,Vidhan Sabha,"Vidhan Sabha, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+way/294547164,77.221784,28.688104,Vidhan Sabha,"Delhi Vidhan Sabha, Delhi, India",Delhi,South West Delhi,Delhi
+way/779091475,79.07961,21.15161,Vidhan Sabha,"Vidhan Bhavan, Nagpur, MH, India",Maharashtra,Nagpur,Nagpur
+1309964007,74.191,30.46431,Hauz Khas,"Hauz Khas, PB, India",Punjab,Firozpur,Hauz Khas
+85928641,77.204802,28.548204,Hauz Khas,"Hauz Khas, Delhi, India",Delhi,South West Delhi,Delhi
+1511435117,77.567856,12.979087,Subhash Nagar,"Subhash Nagar, Bangalore, KA, India",Karnataka,Bangalore,Bangalore
+1511390419,77.27208,28.67082,Seelampur,"Seelampur, Delhi, India",Delhi,South West Delhi,Delhi
+node/2586278342,72.886755,19.116503,Ashok Vihar,"Ashok Vihar, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+way/970829591,77.178378,28.690987,Ashok Vihar,"Ashok Vihar, Delhi, India",Delhi,South West Delhi,Delhi
+way/446767374,74.19094,17.291025,Ashok Vihar,"Ashok Vihar, Karad, MH, India",Maharashtra,Satara,Karad
+node/4225298889,75.842558,26.829611,Ashok Vihar,"Ashok Vihar, Jagatpura, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+polyline:21260748,85.309796,23.350361,Ashok Vihar,"Ashok vihar road, Ranchi, JH, India",Jharkhand,Ranchi,Ranchi
+node/9969678884,77.275754,28.560603,Ardee City,"The Ardee School, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3635760,77.072186,28.436376,Ardee City,"Ardee City, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7676690141,85.82612,23.817621,Ardee City,"Ardeer Hospital, JH, India",Jharkhand,Bokaro,
+node/6539894856,77.234197,28.625612,Mandi House,"Mandi House, Delhi, India",Delhi,South West Delhi,Delhi
+node/6191428420,77.233778,28.625848,Mandi House,"Mandi House, Delhi, India",Delhi,South West Delhi,Delhi
+node/5677933257,77.234361,28.625287,Mandi House,"Mandi House 3, Delhi, India",Delhi,South West Delhi,Delhi
+way/798801356,76.952472,10.01622,Mandi House,"Malabar Mandi House, KL, India",Kerala,Idukki,
+node/9869681848,79.600389,17.987477,Mandi House,"dine in mandi house, Warangal, TG, India",Telangana,Warangal,Warangal
+node/4676900919,77.295788,28.6536,Karkarduma,"Karkarduma Court, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3808501,77.30446,28.651204,Karkarduma,"Karkarduma, Delhi, India",Delhi,South West Delhi,Delhi
+node/2833971689,77.306069,28.649343,Karkarduma,"Karkarduma (Pink Line), Delhi, India",Delhi,South West Delhi,Delhi
+node/6458130120,77.305518,28.648318,Karkarduma,"Karkarduma (Blue Line), Delhi, India",Delhi,South West Delhi,Delhi
+relation/3833519,77.306726,28.646313,Karkarduma,"TOD Karkarduma, Delhi, India",Delhi,South West Delhi,Delhi
+890501401,81.5113,25.37841,Kaushambi,"Kaushambi district, UP, India",Uttar Pradesh,Kaushambi,Kaushambi district
+1108695841,81.448508,25.471923,Kaushambi,"Kaushambi, UP, India",Uttar Pradesh,Kaushambi,
+node/7282286731,77.229128,28.602245,Khan Market,"Khan Market, Delhi, India",Delhi,South West Delhi,Delhi
+node/10221267678,77.227724,28.603203,Khan Market,"Khan Market, Delhi, India",Delhi,South West Delhi,Delhi
+890507483,77.226867,28.600341,Khan Market,"Khan Market, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405276,77.226002,28.599482,Khan Market,"Khan Market, Delhi, India",Delhi,South West Delhi,Delhi
+node/8014526228,77.22744,28.600167,Khan Market,"Biotique, Khan Market, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20706515,77.294225,26.913907,Subhash Chowk,"Subhash Chowk, RJ, India",Rajasthan,Bharatpur,
+polyline:29749988,72.533631,23.052381,Subhash Chowk,"Subhash Chowk, Ahmedabad, GJ, India",Gujarat,Ahmadabad,Ahmedabad
+polyline:22614097,76.711615,11.418889,Botanical Garden,"botanical garden, Ooty, TN, India",Tamil Nadu,Nilgiris,Ooty
+polyline:22618204,76.931999,11.014403,Botanical Garden,"Botanical Garden Road, Coimbatore, TN, India",Tamil Nadu,Coimbatore,Coimbatore
+node/2833058750,77.333773,28.563857,Botanical Garden,"Botanical Garden, Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Noida
+node/9199641636,88.300682,22.552914,Botanical Garden,"Botanical Garden, Howrah, WB, India",West Bengal,Howrah,Howrah
+way/589915684,90.524784,26.508131,Botanical Garden,"Botanical Garden, AS, India",Assam,Chirang,
+node/6930089778,77.169277,28.673623,Inderlok,"Inderlok, Delhi, India",Delhi,South West Delhi,Delhi
+node/7138534429,77.16764,28.672408,Inderlok,"DGD, Inderlok, Delhi, India",Delhi,South West Delhi,Delhi
+node/6465991434,77.169187,28.672707,Inderlok,"Inderlok (Green Line), Delhi, India",Delhi,South West Delhi,Delhi
+node/6930106187,77.170483,28.673149,Inderlok,"Parsvnath Mall Inderlok, Delhi, India",Delhi,South West Delhi,Delhi
+way/707859994,77.170382,28.67347,Inderlok,"Inderlok Metro Station (Red Line), Delhi, India",Delhi,South West Delhi,Delhi
+7302826,78.55757,17.34769,Lal Quila,"Lal Bahadur Nagar, AP, India",Andhra Pradesh,Hyderabad,Lal Bahadur Nagar
+890506095,78.55757,17.34769,Lal Quila,"Lal Bahadur Nagar, Hyderabad, TG, India",Telangana,Hyderabad,Hyderabad
+node/7282286730,77.236661,28.657483,Lal Quila,"Lal Quila, Delhi, India",Delhi,South West Delhi,Delhi
+node/2472250513,76.100848,30.826875,Lal Quila,"Lal kalan, PB, India",Punjab,Ludhiana,
+way/52097620,88.349125,22.571952,Lal Quila,"Lal Dighi, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+102030321,68.968854,22.24338,Dwarka Sector 21,"Dwarka, GJ, India",Gujarat,Jamnagar,Dwarka
+11875527,69.65498,22.20253,Dwarka Sector 21,"Jamnagar, GJ, India",Gujarat,Jamnagar,
+way/154186641,77.055813,28.579315,Dwarka Sector 21,"WelcomHotel Dwarka, Delhi, India",Delhi,South West Delhi,Delhi
+node/6541854257,77.033541,28.597009,Dwarka Sector 21,"Dwarka Sector 13, Delhi, India",Delhi,South West Delhi,Delhi
+node/5737168025,77.049443,28.586443,Dwarka Sector 21,"Dwarka Sector 11, Delhi, India",Delhi,South West Delhi,Delhi
+85903979,77.267719,28.51489,Tughlakabad,"Tughlakabad, Delhi, India",Delhi,South West Delhi,Delhi
+1276535291,75.70859,33.07787,Jasola,"Jasola, India",Jammu and Kashmir,Doda,Jasola
+polyline:29784988,75.890747,22.725467,Greater Kailash,"Greater Kailash Road, Indore, MP, India",Madhya Pradesh,Indore,Indore
+way/482822215,77.094724,28.491282,DLF Phase 3,"Dlf Phase-3 U-50, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/589014180,77.098501,28.494448,DLF Phase 3,"Dlf Phase -3 U-24, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/10685628359,77.100762,28.497711,DLF Phase 3,"Amazone Residency Dlf Phase 3 Gurugram, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/143049064,77.09242,28.489817,DLF Phase 3,"5 DLF Phase 3, Sector 25, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+10113993,77.10687,28.48434,DLF Phase 3,"Laurent & Benon Urban Courtyard Dlf Phase 3, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:31582678,77.18975,28.569586,Bhikaji Cama Place,"Bikaji Cama Place Flyover, Delhi, India",Delhi,South West Delhi,Delhi
+node/6453544486,77.187871,28.570262,Bhikaji Cama Place,"Bhikaji Cama Place, Delhi, India",Delhi,South West Delhi,Delhi
+6955273,77.18559,28.56755,Bhikaji Cama Place,"Bhikaji Cama Place, DL, India",Delhi,South West Delhi,Bhikaji Cama Place
+890504143,77.18559,28.56755,Bhikaji Cama Place,"Bhikaji Cama Place, Delhi, India",Delhi,South West Delhi,Delhi
+node/6258194785,77.188904,28.569983,Bhikaji Cama Place,"Bhikaji Cama Place Gate No. 2, Delhi, India",Delhi,South West Delhi,Delhi
+102031095,77.510051,28.466676,Greater Noida,"Greater Noida, UP, India",Uttar Pradesh,Gautam Buddha Nagar,Greater Noida
+node/5455135429,77.215794,28.529403,Hauz Rani,"Hauz Rani, Delhi, India",Delhi,South West Delhi,Delhi
+85928627,77.211664,28.52909,Hauz Rani,"Hauz Rani, Delhi, India",Delhi,South West Delhi,Delhi
+10263238,77.21214,28.53022,Hauz Rani,"Hauz Rāni, DL, India",Delhi,South West Delhi,Hauz Rāni
+node/2832938172,77.205045,28.543369,Hauz Rani,"Hauz Khas, Delhi, India",Delhi,South West Delhi,Delhi
+1310157911,82.73053,25.68331,Hauz Rani,"Hauz, UP, India",Uttar Pradesh,Jaunpur,Hauz
+890504089,84.992008,25.521705,Vaishali,"Patna, BR, India",Bihar,Patna,
+890503405,85.37415,25.743878,Vaishali,"Vaishali, BR, India",Bihar,Vaishali,
+85928547,77.338146,28.643401,Vaishali,"Vaishali, Ghaziabad, UP, India",Uttar Pradesh,Ghaziabad,Ghaziabad
+polyline:29594272,77.213123,28.623645,Patel Chowk,"Patel Chowk, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:31580457,79.417842,28.355271,Patel Chowk,"Patel Chowk, Bareilly, UP, India",Uttar Pradesh,Bareilly,Bareilly
+polyline:29594470,77.098122,28.652773,Patel Chowk,"Patel Chowk Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:31703727,70.463902,21.511913,Patel Chowk,"Sardar Patel Chowk, Junagadh, GJ, India",Gujarat,Junagadh,Junagadh
+polyline:31736620,76.827297,17.319169,Patel Chowk,"Sardar Vallabhai Patel Chowk, Gulbarga, KA, India",Karnataka,Gulbarga,Gulbarga
+102029095,76.984009,29.388567,Panipat,"Panipat, HR, India",Haryana,Panipat,Panipat
+1243251169,77.27633,30.56532,Panipat,"Panipat, HP, India",Himachal Pradesh,Sirmaur,Panipat
+polyline:29595070,77.202966,28.598492,Lok Kalyan Marg,"Lok Kalyan Marg, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:31582716,77.225581,28.567815,South Extension,"South Extension Flyover, Delhi, India",Delhi,South West Delhi,Delhi
+way/714996468,78.062663,27.888742,Ashok Park Main,"Ashok Nagar Park, Aligarh, UP, India",Uttar Pradesh,Aligarh,Aligarh
+polyline:29644921,80.953944,26.859433,Ashok Park Main,"Ashok Marg, Lucknow, UP, India",Uttar Pradesh,Lucknow,Lucknow
+polyline:20677854,77.995004,27.182248,Ashok Park Main,"ashok nagar, Agra, UP, India",Uttar Pradesh,Agra,Agra
+polyline:20800362,91.781659,26.141631,Ashok Park Main,"Ashok Path, Guwahati, AS, India",Assam,Kamrup Metropolitan,Guwahati
+polyline:29836074,73.801782,19.980487,Ashok Park Main,"Ashok Marg, Nashik, MH, India",Maharashtra,Nashik,Nashik
+node/415257456,77.120951,28.478729,Arjangarh,"Arjangarh, Delhi, India",Delhi,South West Delhi,Delhi
+relation/3774826,77.12283,28.476949,Arjangarh,"Arjangarh Air Force Station, Delhi, India",Delhi,South West Delhi,Delhi
+85928595,77.13364,28.649772,Ramesh Nagar,"Ramesh Nagar, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405122,77.287497,28.682968,Shivaji Park,"Shivaji Park Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:21995467,72.837775,19.024964,Shivaji Park,"Shivaji Park Road no.1, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+polyline:21994977,72.840737,19.028272,Shivaji Park,"Shivaji Park Road no.2, Mumbai, MH, India",Maharashtra,Mumbai City,Mumbai
+polyline:20312966,79.501225,29.199267,Shivaji Park,"Shivaji Colony, Haldwani, UT, India",Uttarakhand,Nainital,Haldwani
+polyline:29894835,74.224924,16.696742,Shivaji Park,"Shivaji Road, Kolhapur, MH, India",Maharashtra,Kolhapur,Kolhapur
+node/3937622357,84.989182,24.696359,Welcome,"Welcome, BR, India",Bihar,Gaya,
+node/5367111421,72.841253,21.207254,Welcome,"Hotel Welcome, Surat, GJ, India",Gujarat,Surat,Surat
+node/170568503,75.820407,30.896985,Welcome,"Welcome Palace, Ludhiana, PB, India",Punjab,Ludhiana,Ludhiana
+node/7111709490,76.03452,10.604082,Welcome,"Welcome Hotel, KL, India",Kerala,Thrissur,
+node/7149063185,74.313389,14.559362,Welcome,"Welcome House, KA, India",Karnataka,Uttara Kannada,
+node/9584236504,77.234256,28.564404,Moolchand,"Moolchand, Delhi, India",Delhi,South West Delhi,Delhi
+way/763520661,78.068945,30.318412,Moolchand,"MOOLCHAND, Dehradun, UT, India",Uttarakhand,Dehradun,Dehradun
+node/7007601364,77.327165,28.137003,Moolchand,"Moolchand Hospital, Palwal, HR, India",Haryana,Palwal,Palwal
+node/7489609810,78.085046,27.878363,Moolchand,"Moolchand Hospital, Aligarh, UP, India",Uttar Pradesh,Aligarh,Aligarh
+node/5236252843,77.23419,28.564002,Moolchand,"Moolchand Parantha, Delhi, India",Delhi,South West Delhi,Delhi
+102029389,77.717985,28.981529,Meerut,"Meerut, UP, India",Uttar Pradesh,Meerut,Meerut
+polyline:21342391,88.372956,22.598003,Kirti Nagar,"Kirti Mitra Ln, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+polyline:22125896,73.767769,18.547235,Kirti Nagar,"Kirti Gardens Road, Pune, MH, India",Maharashtra,Pune,Pune
+polyline:22125898,73.762218,18.540125,Kirti Nagar,"Kirti Gardens Phase II Road, Pune, MH, India",Maharashtra,Pune,Pune
+polyline:22125897,73.773129,18.541841,Kirti Nagar,"Kirti Gardens Phase I Road, Pune, MH, India",Maharashtra,Pune,Pune
+polyline:22572904,80.199412,12.936003,Kirti Nagar,"Chittibabu nagar - Ambal Nagar, Chennai, TN, India",Tamil Nadu,Chennai,Chennai
+way/504034446,77.279419,28.617957,Akshardham,"Akshardham, Delhi, India",Delhi,South West Delhi,Delhi
+way/1014030725,70.771594,22.280798,Akshardham,"Akshardham, Rajkot, GJ, India",Gujarat,Rajkot,Rajkot
+way/372667260,72.141771,21.754098,Akshardham,"Akshardham Temple, Bhavnagar, GJ, India",Gujarat,Bhavnagar,Bhavnagar
+node/3297005163,71.442508,21.03449,Akshardham,"Hotel Akshardham, Rajula, GJ, India",Gujarat,Amreli,Rajula
+node/3318259999,72.674088,23.229385,Akshardham,"Swaminarayan Akshardham Temple, Gandhinagar, GJ, India",Gujarat,Gandhinagar,Gandhinagar
+11072585,77.20558,28.5003,Maidan Garhi,"Maidan Garhi, DL, India",Delhi,South West Delhi,Maidan Garhi
+1511391145,77.20558,28.5003,Maidan Garhi,"Maidan Garhi, Delhi, India",Delhi,South West Delhi,Delhi
+node/5421543288,88.348788,22.549467,Maidan Garhi,"Maidan, Kolkata, WB, India",West Bengal,Kolkata,Kolkata
+node/1988513583,77.247211,28.616039,Maidan Garhi,"Pragati Maidan, Delhi, India",Delhi,South West Delhi,Delhi
+way/243512763,76.599884,8.881894,Maidan Garhi,"Cantonment Maidan, Kollam, KL, India",Kerala,Kollam,Kollam
+1360030351,84.01542,25.0723,Gwal Pahari,"Pahari, BR, India",Bihar,Rohtas,Pahari
+1344197683,80.37596,23.71472,Gwal Pahari,"Pahari, MP, India",Madhya Pradesh,Katni,Pahari
+1344112561,77.08396,27.7106,Gwal Pahari,"Pahari, RJ, India",Rajasthan,Bharatpur,Pahari
+1344009973,79.05807,28.79099,Gwal Pahari,"Pahari, UP, India",Uttar Pradesh,Rampur,Pahari
+1343715203,78.44291,25.75242,Gwal Pahari,"Pahari, MP, India",Madhya Pradesh,Datia,Pahari
+polyline:29594164,77.073099,28.509313,Old Gurgaon,"Old Delhi Gurgaon Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+polyline:29594532,77.081523,28.519662,Old Gurgaon,"Old Delhi Gurgaon Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29594168,77.089528,28.533098,Old Gurgaon,"Old Delhi Gurgaon Road, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:20405888,77.164401,28.567593,Palam Vihar,"Palam Marg, Delhi, India",Delhi,South West Delhi,Delhi
+node/2832938323,77.083076,28.58891,Palam Vihar,"Palam, Delhi, India",Delhi,South West Delhi,Delhi
+node/940975619,77.092471,28.585353,Palam Vihar,"Palam, Delhi, India",Delhi,South West Delhi,Delhi
+node/3736001854,77.03397,28.516466,Palam Vihar,"Palam Vihar, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/7492120957,75.397576,11.854005,Palam Vihar,"kuruva palam, KL, India",Kerala,Kannur,
+node/7001218513,77.026029,28.468287,Gurgaon Railway Station,"Centre For Sight, Gurgaon, New Railway Road, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/26968235,77.059394,28.482356,Gurgaon Railway Station,"Airforce station Gurgaon, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+way/123422237,77.092036,28.44638,Gurgaon Railway Station,"Volkswagen Gurgaon Service Station, Gurugram, HR, India",Haryana,Gurugram,Gurugram
+node/4108381700,77.553324,13.021856,Gurgaon Railway Station,"Railway Station Yeshwanthapura, Bangalore, KA, India",Karnataka,Bangalore,Bangalore
+node/5391527174,75.790129,26.918113,Gurgaon Railway Station,"Railway Station, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+way/360264006,77.237676,28.65001,Jama Masjid,"Jama Masjid, Delhi, India",Delhi,South West Delhi,Delhi
+85928091,77.235167,28.65055,Jama Masjid,"Jama Masjid, Delhi, India",Delhi,South West Delhi,Delhi
+node/6166529732,77.237563,28.649491,Jama Masjid,"Jama Masjid Metro Gate No. 1, Delhi, India",Delhi,South West Delhi,Delhi
+node/9943458603,77.238087,28.650704,Jama Masjid,"Jama Masjid Metro Gate No. 4, Delhi, India",Delhi,South West Delhi,Delhi
+node/9943458608,77.238176,28.651483,Jama Masjid,"Jama Masjid Metro Gate No. 3, Delhi, India",Delhi,South West Delhi,Delhi
+node/2832938185,77.175059,28.556897,Munirka,"Munirka, Delhi, India",Delhi,South West Delhi,Delhi
+85927945,77.170601,28.555119,Munirka,"Munirka, Delhi, India",Delhi,South West Delhi,Delhi
+10263223,77.17429,28.55529,Munirka,"Munīrka, DL, India",Delhi,South West Delhi,Munīrka
+node/7138493133,77.175735,28.551222,Munirka,"NIHFW Munirka, Delhi, India",Delhi,South West Delhi,Delhi
+node/5134453891,77.178976,28.553684,Munirka,"DDA Flats Munirka, Delhi, India",Delhi,South West Delhi,Delhi
+890511089,77.228372,28.539012,Chirag Delhi,"Chirag Delhi, Delhi, India",Delhi,South West Delhi,Delhi
+polyline:29645642,75.891936,26.84625,Yamuna Bank,"yamuna marg, Jaipur, RJ, India",Rajasthan,Jaipur,Jaipur
+polyline:31580771,78.11349,27.229866,Yamuna Bank,"Yamuna Expressway, Agra, UP, India",Uttar Pradesh,Agra,Agra
+polyline:31580843,77.571863,28.141616,Yamuna Bank,"Yamuna Expressway, UP, India",Uttar Pradesh,Gautam Buddha Nagar,
+polyline:31580844,77.590713,28.03628,Yamuna Bank,"Yamuna Expressway, UP, India",Uttar Pradesh,Aligarh,
+polyline:22571500,80.266113,12.99032,Yamuna Bank,"Yamuna Street, Chennai, TN, India",Tamil Nadu,Chennai,Chennai
+polyline:22377951,80.380912,16.278537,Cyber Hub,"Cyber Gardens, Guntur, AP, India",Andhra Pradesh,Guntur,Guntur
+way/896546335,75.833225,11.253984,Cyber Hub,"Mobile10X - Cyberpark, Kozhikode, KL, India",Kerala,Kozhikode,Kozhikode
+node/6132059104,75.836826,11.254013,Cyber Hub,"Sahya - Cyberpark Kozhikode, Kozhikode, KL, India",Kerala,Kozhikode,Kozhikode
+polyline:22305041,78.382021,17.443329,Cyber Hub,"Ram Cyber View, Hyderabad, AP, India",Andhra Pradesh,Hyderabad,Hyderabad
+polyline:22614536,75.834007,11.256053,Cyber Hub,"Cyber Park Road, Kozhikode, KL, India",Kerala,Kozhikode,Kozhikode
