@@ -24,3 +24,42 @@ booking_hour, pick_longitudelatitude, drop_longitudelatitude, pick_station_, dro
 
 Excluded from modeling (free text, IDs, raw date strings)
 Booking ID, Customer ID, Date, Time, booking_datetime, addresses & regionlocality columns.
+
+2) What Each Cell Does (Cells 1–7)
+Cell 1 — Imports & Folders
+-Imports pandas/sklearn; creates artifact folders:
+-artifacts/metrics, artifacts/models, artifacts/plots
+-Purpose: consistent output locations for downstream use.
+
+Cell 2 — Feature Inference (with whitelist & safety)
+
+-Deduplicates duplicate column names.
+-Automatically builds three lists:
+-numeric: all *_scaled/*_log_scaled + numeric *_fill + whitelisted raw numerics
+-categorical: non-numeric *_fill + Vehicle Type
+-flags: *_missing_flag
+-Guards against accidental inclusion of non-numeric columns in the numeric list.
+
+Cell 3 — Preprocessor
+
+-Builds a ColumnTransformer:
+-One-Hot for categorical features (handle_unknown="ignore")
+-Passthrough for numeric + missing flags (already scaled / 0-1)
+
+Cell 4 — Model Registry
+
+Defines baseline models:
+-logreg_l2: LogisticRegression (class_weight="balanced")
+-dtree: DecisionTreeClassifier (class_weight="balanced")
+-rf_300: RandomForestClassifier (300 trees, class_weight="balanced")
+-gbdt: GradientBoostingClassifier
+-Keeps a consistent dictionary {model_name: estimator}.
+
+Cell 5 — Exact Label Mapping & Safe Stratified CV
+
+-Converts Booking Status → binary with explicit label set:
+    -Positive (1): {Cancelled by Customer, Cancelled by Driver, Incomplete, No Driver Found}
+    -Negative (0): {Completed}
+-Safe CV helper:
+    -Uses StratifiedKFold
+    -Automatically reduces folds to ≤ minority count; skips degenerate folds (single class).
