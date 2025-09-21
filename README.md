@@ -1,44 +1,52 @@
-Owner: Howard
-Goal:Train baseline classifiers to predict ride completion vs. cancellation, and export evaluation metrics for visualization.
+# 📘 Milestone II · Data Modeling Results - Howard Lin
 
-TL;DR
-
-- Input datasetsprocessedncr_ride_bookings_with_weather_filled_scaled_short.csv
-- Target Booking Status → binary mapping via explicit label set
-- Models Logistic Regression, Decision Tree, Random Forest, Gradient Boosting
-- CV Stratified K-Fold (default 5 folds, auto-safe when minority is small)
-- Output (for Viz) artifactsmetricsmetrics.csv — longtidy metrics table (≈ models × folds × metrics)
-- Repro Entire pipeline lives in data_modelling.ipynb (Cells 1–7)
-# Data Modeling — Milestone II
+## ⚡ TL;DR
+- 📁 Input: processed Uber 2024 dataset → model training done  
+- 📊 Output: `artifacts/metrics/metrics.csv` (125 rows × 7 columns)  
+- 🖼️ Use it to plot model performance (leaderboards, boxplots, heatmaps)
 
 ---
 
-## How It Works
+## 🎯 What This Is
+This notebook trains several machine learning models to predict **ride completion vs. cancellation** using the processed Uber 2024 dataset.
 
-**Input:**  
-- `datasets/processed/ncr_ride_bookings_with_weather_filled_scaled_short.csv`
+---
 
-**Target:**  
-- `Booking Status`
+## 📂 Input Dataset
+- File: `datasets/processed/ncr_ride_bookings_with_weather_filled_scaled_short.csv`
+- Target: **`Booking Status`**
   - Positive = `Cancelled by Customer`, `Cancelled by Driver`, `Incomplete`, `No Driver Found`
   - Negative = `Completed`
+---
 
-**Features:**  
-- Numeric: `*_scaled`, `*_log_scaled`, numeric `*_fill`, plus `booking_hour`, coordinates
-- Categorical: text `*_fill`, `Vehicle Type`
-- Missing flags: `*_missing_flag`
+## ⚙️ What I Did
+I trained and evaluated the following models using 5-fold stratified cross-validation:
 
-**Models (5-fold CV):**  
-- Logistic Regression  
-- Decision Tree  
-- Random Forest  
-- Gradient Boosting
+| Category               | Models included            |
+|------------------------|----------------------------|
+| Logistic Regression    | `logreg_l2`                |
+| Decision Tree          | `dtree`                    |
+| Ensemble Methods       | `rf_300` (Random Forest), `gbdt` (Gradient Boosted Trees) |
+| Baseline (extra)       | `dummy_mf` (most frequent) |
+
+Each model was evaluated on these metrics:
+- Accuracy
+- Precision
+- Recall
+- F1 score
+- ROC-AUC
 
 ---
 
-## How to Run
+## 📤 What You Get
+- **`artifacts/metrics/metrics.csv`**  
+  - Tidy long format (ready for plotting)  
+  - Columns:  
+    `run_id, timestamp, model_name, fold, metric, value, params`
+  - Shape: **125 rows × 7 columns**  
+    (5 models × 5 folds × 5 metrics)
+- Each row = one metric value from one fold of one model
 
-1. Open `data_modelling.ipynb`
-2. Run Cells **1 → 7**  
-3. Outputs will be saved to:
+---
+
 
