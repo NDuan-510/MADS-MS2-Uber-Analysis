@@ -30,6 +30,14 @@ EXCLUDE_ALWAYS = {
     "Incomplete Rides_fill",
     "Cancelled Rides by Customer_fill",
     "Cancelled Rides by Driver_fill",
+    "Avg VTAT_fill_scaled",
+    "Avg CTAT_fill_scaled",
+    "VTAT_missing_flag",
+    "CTAT_missing_flag",
+    "BookingValue_missing_flag",
+    "Booking Value_fill_scaled",
+    "Customer Rating_fill",
+    "Driver Ratings_fill",
 }
 
 # ---- helpers ----
