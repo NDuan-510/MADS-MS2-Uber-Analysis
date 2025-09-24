@@ -1,0 +1,4 @@
+model,params,accuracy,precision,recall,f1,roc_auc
+logreg,{'clf__C': 0.5},1.0,1.0,1.0,1.0,1.0
+rf,"{'clf__n_estimators': 150, 'clf__max_depth': None}",1.0,1.0,1.0,1.0,1.0
+knn,"{'clf__n_neighbors': 21, 'clf__weights': 'distance'}",0.9989428093987655,0.9984076433121019,0.9998900192466318,0.9991482814517679,0.9999955022236344
