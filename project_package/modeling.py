@@ -1,4 +1,13 @@
-# project_package/modeling.py — lean + tuning + speed-ups
+# project_package/modeling.py
+# Goal:
+# - Minimal, reliable training with leakage guard + time-based split when available.
+# - Explore a tiny hyperparameter grid across 3 families (fast).
+# - Pick ONE best model by F1 (classification) or RMSE (regression).
+# - Export only what a teammate needs to visualize:
+#     (1) per-row validation predictions CSV,
+#     (2) split-assignments CSV (train/valid per row),
+#     (3) the best pipeline as .joblib.
+# No extra per-model CSVs, no heavy reports.
 
 from __future__ import annotations
 import os, joblib, numpy as np, pandas as pd
@@ -14,14 +23,14 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score, roc_auc_score,
-    mean_absolute_error, mean_squared_error, r2_score
+    accuracy_score, precision_score, recall_score, f1_score,
+    mean_absolute_error, mean_squared_error, r2_score, roc_auc_score,
 )
 
-# ---- leakage guard ----
+# -------------------------- Leakage guard ----------------------------
+# Post-outcome or tightly outcome-linked fields must never be used as features.
 EXCLUDE_ALWAYS = {
     "Booking Status",
     "Reason for cancelling by Customer_fill",
@@ -40,84 +49,104 @@ EXCLUDE_ALWAYS = {
     "Driver Ratings_fill",
 }
 
-# ---- helpers ----
-def load_csv_dedup(p: str) -> pd.DataFrame:
-    df = pd.read_csv(p, low_memory=False)
+# ----------------------------- Utils --------------------------------
+def load_csv_dedup(path: str) -> pd.DataFrame:
+    """Read CSV, drop duplicate-named columns, downcast numerics for speed/memory."""
+    df = pd.read_csv(path, low_memory=False)
     df = df.loc[:, ~df.columns.duplicated()].copy()
-    return _downcast_numeric(df)
-
-def _downcast_numeric(df: pd.DataFrame) -> pd.DataFrame:
     for c in df.columns:
         s = df[c]
-        if pd.api.types.is_float_dtype(s): df[c] = pd.to_numeric(s, downcast="float")
-        elif pd.api.types.is_integer_dtype(s): df[c] = pd.to_numeric(s, downcast="integer")
+        if pd.api.types.is_float_dtype(s):
+            df[c] = pd.to_numeric(s, downcast="float")
+        elif pd.api.types.is_integer_dtype(s):
+            df[c] = pd.to_numeric(s, downcast="integer")
     return df
 
-def make_binary_target(df: pd.DataFrame, col="Booking Status") -> Tuple[pd.DataFrame, str]:
-    if col not in df.columns: raise KeyError(f"{col} missing")
+def make_binary_target(df: pd.DataFrame, status_col="Booking Status") -> Tuple[pd.DataFrame, str]:
+    """Derive binary target: contains 'completed' -> 1 else 0."""
+    if status_col not in df.columns:
+        raise KeyError(f"{status_col} not found")
     out = df.copy()
-    out["_target_completed_"] = out[col].astype(str).str.lower().str.contains("completed").astype(int)
+    out["_target_completed_"] = out[status_col].astype(str).str.lower().str.contains("completed").astype(int)
     return out, "_target_completed_"
 
 def time_or_random_split(df: pd.DataFrame, target: str, valid_ratio=0.2, seed=42):
+    """Prefer time split (booking_datetime). Else random; stratify for binary classification."""
     if "booking_datetime" in df.columns:
-        d = df.copy(); d["booking_datetime"] = pd.to_datetime(d["booking_datetime"], errors="coerce")
+        d = df.copy()
+        d["booking_datetime"] = pd.to_datetime(d["booking_datetime"], errors="coerce")
         d = d.sort_values("booking_datetime").reset_index(drop=True)
-        cut = int(len(d)*(1-valid_ratio)); return d.iloc[:cut].copy(), d.iloc[cut:].copy()
-    strat = df[target] if set(pd.unique(df[target].dropna())) <= {0,1} else None
+        cut = int(len(d) * (1 - valid_ratio))
+        return d.iloc[:cut].copy(), d.iloc[cut:].copy()
+    strat = None
+    if target in df.columns and set(pd.unique(df[target].dropna())) <= {0, 1}:
+        strat = df[target]
     tr, va = train_test_split(df, test_size=valid_ratio, random_state=seed, stratify=strat)
     return tr.copy(), va.copy()
 
 def feat_types(X: pd.DataFrame, max_cat=200):
+    """Return numeric and categorical columns. Cap high-cardinality to avoid huge OHE."""
     num, cat = [], []
     for c in X.columns:
         s = X[c]
-        if pd.api.types.is_numeric_dtype(s) or pd.api.types.is_bool_dtype(s): num.append(c)
+        if pd.api.types.is_numeric_dtype(s) or pd.api.types.is_bool_dtype(s):
+            num.append(c)
         elif pd.api.types.is_string_dtype(s) or pd.api.types.is_categorical_dtype(s):
-            if s.nunique(dropna=False) <= max_cat: cat.append(c)
+            if s.nunique(dropna=False) <= max_cat:
+                cat.append(c)
     return num, cat
 
 def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
+    """For linear/distance models: median-impute + standardize numerics; OHE cats."""
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
-        [("num", Pipeline([("imp", SimpleImputer(strategy="median")), ("sc", StandardScaler())]), num),
-         ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
-                           ("ohe", OneHotEncoder(handle_unknown="ignore"))]), cat)],
-        remainder="drop", sparse_threshold=1.0
+        [
+            ("num", Pipeline([("imp", SimpleImputer(strategy="median")), ("sc", StandardScaler())]), num),
+            ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
+                              ("ohe", OneHotEncoder(handle_unknown="ignore"))]), cat),
+        ],
+        remainder="drop",
+        sparse_threshold=1.0,
     )
 
 def pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
+    """For trees: median-impute numerics; most-freq + Ordinal for cats (unknown -> -1)."""
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
-        [("num", SimpleImputer(strategy="median"), num),
-         ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
-                           ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), cat)],
-        remainder="drop"
+        [
+            ("num", SimpleImputer(strategy="median"), num),
+            ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
+                              ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), cat),
+        ],
+        remainder="drop",
     )
 
-def _param_grid_iter(grid: Dict[str, Iterable]) -> Iterable[Dict[str, object]]:
-    # small Cartesian product generator
-    if not grid: yield {}
-    else:
-        keys = list(grid.keys())
-        vals = [list(grid[k]) for k in keys]
-        idx = [0]*len(keys)
-        def rec(i):
-            if i==len(keys):
-                yield {keys[j]: vals[j][idx[j]] for j in range(len(keys))}
-                return
-            for t in range(len(vals[i])):
-                idx[i]=t
-                yield from rec(i+1)
-        yield from rec(0)
+def _product(grid: Dict[str, Iterable]) -> Iterable[Dict[str, object]]:
+    """Tiny cartesian product generator for very small grids."""
+    if not grid:
+        yield {}
+        return
+    keys = list(grid.keys())
+    vals = [list(grid[k]) for k in keys]
+    idx = [0] * len(keys)
+    def rec(i):
+        if i == len(keys):
+            yield {keys[j]: vals[j][idx[j]] for j in range(len(keys))}
+            return
+        for t in range(len(vals[i])):
+            idx[i] = t
+            yield from rec(i + 1)
+    yield from rec(0)
 
-# ---- results ----
+# ---------------------------- Results --------------------------------
 @dataclass
 class ClassificationResult:
     best_model_name: str
     report: Dict[str, float]
     model_path: str
     artifacts_dir: str
+    preds_csv_path: str
+    split_csv_path: str
 
 @dataclass
 class RegressionResult:
@@ -125,42 +154,69 @@ class RegressionResult:
     report: Dict[str, float]
     model_path: str
     artifacts_dir: str
+    preds_csv_path: str
+    split_csv_path: str
 
-# ---- exporters (per-family best only) ----
-def export_cls_preds(name: str, y_true, y_pred, proba, valid_df, id_cols, outdir):
-    os.makedirs(outdir, exist_ok=True)
-    base = name.replace(" ", "_")
-    cols = {c: valid_df[c].values for c in id_cols if c in valid_df.columns}
+# ---------------------------- Exporters ------------------------------
+def _export_split_assignments(csv_path: str, train_df: pd.DataFrame, valid_df: pd.DataFrame,
+                              id_cols: List[str], target_col: str):
+    """Write a simple file telling which rows were train vs. validation (for viz & audit)."""
+    rows = []
+    ids = id_cols or []
+    for _, r in train_df.iterrows():
+        row = {"split": "train", target_col: r[target_col]}
+        for c in ids:
+            if c in train_df.columns:
+                row[c] = r.get(c, None)
+        rows.append(row)
+    for _, r in valid_df.iterrows():
+        row = {"split": "valid", target_col: r[target_col]}
+        for c in ids:
+            if c in valid_df.columns:
+                row[c] = r.get(c, None)
+        rows.append(row)
+    pd.DataFrame(rows).to_csv(csv_path, index=False)
+
+def _export_cls_preds(csv_path: str, valid_df: pd.DataFrame, id_cols: List[str],
+                      y_true: np.ndarray, y_pred: np.ndarray, proba: Optional[np.ndarray]):
+    cols = {c: valid_df[c].values for c in (id_cols or []) if c in valid_df.columns}
     data = {"y_true": y_true, "y_pred": y_pred}
-    if proba is not None: data["proba"] = proba
-    pd.DataFrame({**cols, **data}).to_csv(os.path.join(outdir, f"cls_{base}_preds.csv"), index=False)
+    if proba is not None:
+        data["proba"] = proba
+    pd.DataFrame({**cols, **data}).to_csv(csv_path, index=False)
 
-def export_reg_preds(name: str, target_col: str, y_true, y_pred, valid_df, id_cols, outdir):
-    os.makedirs(outdir, exist_ok=True)
-    base = name.replace(" ", "_"); tgt = target_col.replace(" ", "_")
-    cols = {c: valid_df[c].values for c in id_cols if c in valid_df.columns}
-    pd.DataFrame({**cols, "y_true": y_true, "y_pred": y_pred, "residual": y_true - y_pred}).to_csv(
-        os.path.join(outdir, f"reg_{tgt}_{base}_preds.csv"), index=False
-    )
+def _export_reg_preds(csv_path: str, valid_df: pd.DataFrame, id_cols: List[str],
+                      y_true: np.ndarray, y_pred: np.ndarray):
+    cols = {c: valid_df[c].values for c in (id_cols or []) if c in valid_df.columns}
+    out = pd.DataFrame({**cols, "y_true": y_true, "y_pred": y_pred})
+    out["residual"] = out["y_true"] - out["y_pred"]
+    out.to_csv(csv_path, index=False)
 
-# ---- training APIs with lightweight tuning ----
+# ---------------------------- Training -------------------------------
 def train_classification_from_csv(
-    csv_path: str, target_col: Optional[str] = None, id_cols: Optional[List[str]] = None,
-    artifacts_dir: str = "artifacts/supervised", valid_ratio: float = 0.2, random_state: int = 42,
-    tune_row_cap: Optional[int] = 50000,
+    csv_path: str,
+    target_col: Optional[str] = None,     # None -> derive from Booking Status
+    id_cols: Optional[List[str]] = None,  # IDs removed from X but kept in CSV exports
+    artifacts_dir: str = "artifacts/supervised",
+    valid_ratio: float = 0.2,
+    random_state: int = 42,
+    tune_row_cap: Optional[int] = 40000,  # cap rows for tuning; refit on full train
 ) -> ClassificationResult:
     os.makedirs(artifacts_dir, exist_ok=True)
+
     df = load_csv_dedup(csv_path)
-    if target_col is None or target_col not in df.columns: df, target_col = make_binary_target(df)
-    id_cols = id_cols or []
-    if id_cols: df = df.drop(columns=[c for c in id_cols if c in df.columns], errors="ignore")
+    if target_col is None or target_col not in df.columns:
+        df, target_col = make_binary_target(df)
+
+    ids = id_cols or []
+    if ids:
+        df = df.drop(columns=[c for c in ids if c in df.columns], errors="ignore")
 
     tr, va = time_or_random_split(df, target_col, valid_ratio, random_state)
     y_tr, y_va = tr[target_col].astype(int).values, va[target_col].astype(int).values
-    drop_cols = [c for c in ({target_col} | EXCLUDE_ALWAYS | set(id_cols)) if c in tr.columns]
+    drop_cols = [c for c in ({target_col} | EXCLUDE_ALWAYS | set(ids)) if c in tr.columns]
     X_tr, X_va = tr.drop(columns=drop_cols, errors="ignore"), va.drop(columns=drop_cols, errors="ignore")
 
-    # optional cap for tuning (refit best on full training later)
     if tune_row_cap is not None and len(X_tr) > tune_row_cap:
         X_tune, y_tune = X_tr.iloc[:tune_row_cap], y_tr[:tune_row_cap]
     else:
@@ -176,73 +232,78 @@ def train_classification_from_csv(
         },
         "rf": {
             "make": lambda: Pipeline([("pre", pre_ordinal(X_tr)),
-                                      ("clf", RandomForestClassifier(n_estimators=150,
+                                      ("clf", RandomForestClassifier(n_estimators=200,
                                                                      class_weight="balanced",
                                                                      n_jobs=-1, random_state=random_state))]),
-            "grid": {"clf__n_estimators": [150, 250], "clf__max_depth": [None, 12]}
+            "grid": {"clf__n_estimators": [200, 300], "clf__max_depth": [None, 12]}
         },
         "knn": {
             "make": lambda: Pipeline([("pre", pre_ohe_scaled(X_tr)),
                                       ("clf", KNeighborsClassifier())]),
-            "grid": {"clf__n_neighbors": [7, 21], "clf__weights": ["uniform", "distance"]}
+            "grid": {"clf__n_neighbors": [9, 21], "clf__weights": ["uniform", "distance"]}
         },
     }
 
-    comp_rows, fam_best = [], {}
-    # per-family tuning on capped set
+    best_name, best_pipe, best_report, best_pred, best_proba = None, None, None, None, None
     for name, spec in families.items():
-        best_params, best_f1, best_pipe = None, -np.inf, None
-        for params in _param_grid_iter(spec["grid"]):
-            pipe = spec["make"]()
-            pipe.set_params(**params)
-            pipe.fit(X_tune, y_tune)
-            pred = pipe.predict(X_va)
-            f1 = f1_score(y_va, pred, zero_division=0)
+        # Tune on subset
+        best_params, best_f1 = None, -np.inf
+        for params in _product(spec["grid"]):
+            p = spec["make"](); p.set_params(**params); p.fit(X_tune, y_tune)
+            f1 = f1_score(y_va, p.predict(X_va), zero_division=0)
             if f1 > best_f1:
-                best_f1, best_params, best_pipe = f1, params, pipe
-        # refit on full training with best params
-        final_pipe = families[name]["make"]()
-        if best_params: final_pipe.set_params(**best_params)
-        final_pipe.fit(X_tr, y_tr)
-        y_pred = final_pipe.predict(X_va)
-        row = {
+                best_f1, best_params = f1, params
+        # Refit on full train and evaluate on validation
+        final_p = spec["make"]()
+        if best_params: final_p.set_params(**best_params)
+        final_p.fit(X_tr, y_tr)
+        pred = final_p.predict(X_va)
+        rep = {
             "model": name,
-            "params": best_params if best_params else {},
-            "accuracy": accuracy_score(y_va, y_pred),
-            "precision": precision_score(y_va, y_pred, zero_division=0),
-            "recall": recall_score(y_va, y_pred, zero_division=0),
-            "f1": f1_score(y_va, y_pred, zero_division=0),
+            "accuracy": accuracy_score(y_va, pred),
+            "precision": precision_score(y_va, pred, zero_division=0),
+            "recall": recall_score(y_va, pred, zero_division=0),
+            "f1": f1_score(y_va, pred, zero_division=0),
         }
         try:
-            proba = final_pipe.predict_proba(X_va)[:, 1]
-            row["roc_auc"] = roc_auc_score(y_va, proba)
+            proba = final_p.predict_proba(X_va)[:, 1]
+            rep["roc_auc"] = roc_auc_score(y_va, proba)
         except Exception:
             proba = None
-        comp_rows.append(row)
-        export_cls_preds(name, y_va, y_pred, proba, va, id_cols, artifacts_dir)
-        fam_best[name] = {"pipe": final_pipe, "row": row}
+        if best_report is None or rep["f1"] > best_report["f1"]:
+            best_name, best_pipe, best_report, best_pred, best_proba = name, final_p, rep, pred, proba
 
-    pd.DataFrame(comp_rows).to_csv(os.path.join(artifacts_dir, "classification_model_comparison.csv"), index=False)
+    # Export split assignments (train/valid) for transparency & viz
+    split_csv = os.path.join(artifacts_dir, "split_assignments_classification.csv")
+    _export_split_assignments(split_csv, tr, va, ids, target_col)
 
-    # pick global best by F1
-    best_name = max(fam_best.keys(), key=lambda k: fam_best[k]["row"]["f1"])
-    best_pipe, best_report = fam_best[best_name]["pipe"], fam_best[best_name]["row"]
+    # Export ONE ready-to-plot per-row validation predictions
+    preds_csv = os.path.join(artifacts_dir, f"cls_best_{best_name}_preds.csv")
+    _export_cls_preds(preds_csv, va, ids, y_va, best_pred, best_proba)
+
+    # Save the best pipeline
     model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.joblib")
     joblib.dump(best_pipe, model_path)
-    return ClassificationResult(best_name, best_report, model_path, artifacts_dir)
+
+    return ClassificationResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
 def train_regression_from_csv(
-    csv_path: str, target_col: str, id_cols: Optional[List[str]] = None,
-    artifacts_dir: str = "artifacts/supervised", valid_ratio: float = 0.2, random_state: int = 42,
-    tune_row_cap: Optional[int] = 50000,
+    csv_path: str,
+    target_col: str,
+    id_cols: Optional[List[str]] = None,
+    artifacts_dir: str = "artifacts/supervised",
+    valid_ratio: float = 0.2,
+    random_state: int = 42,
+    tune_row_cap: Optional[int] = 40000,
 ) -> RegressionResult:
     os.makedirs(artifacts_dir, exist_ok=True)
-    df = load_csv_dedup(csv_path)
-    id_cols = id_cols or []
-    tr, va = time_or_random_split(df, target_col, valid_ratio, random_state)
 
-    drop_cols = [c for c in (set(id_cols) | EXCLUDE_ALWAYS | {target_col}) if c in tr.columns]
+    df = load_csv_dedup(csv_path)
+    ids = id_cols or []
+
+    tr, va = time_or_random_split(df, target_col, valid_ratio, random_state)
     y_tr, y_va = tr[target_col].values, va[target_col].values
+    drop_cols = [c for c in (set(ids) | EXCLUDE_ALWAYS | {target_col}) if c in tr.columns]
     X_tr, X_va = tr.drop(columns=drop_cols, errors="ignore"), va.drop(columns=drop_cols, errors="ignore")
 
     if tune_row_cap is not None and len(X_tr) > tune_row_cap:
@@ -266,38 +327,43 @@ def train_regression_from_csv(
         },
     }
 
-    comp_rows, fam_best = [], {}
+    best_name, best_pipe, best_report, best_pred = None, None, None, None
     for name, spec in families.items():
-        best_params, best_rmse, best_pipe = None, np.inf, None
-        for params in _param_grid_iter(spec["grid"]):
-            pipe = spec["make"]()
-            pipe.set_params(**params)
-            pipe.fit(X_tune, y_tune)
-            pred = pipe.predict(X_va)
-            rmse = mean_squared_error(y_va, pred, squared=False)
+        best_params, best_rmse = None, np.inf
+        for params in _product(spec["grid"]):
+            p = spec["make"](); p.set_params(**params); p.fit(X_tune, y_tune)
+            rmse = mean_squared_error(y_va, p.predict(X_va), squared=False)
             if rmse < best_rmse:
-                best_rmse, best_params, best_pipe = rmse, params, pipe
-        final_pipe = families[name]["make"]()
-        if best_params: final_pipe.set_params(**best_params)
-        final_pipe.fit(X_tr, y_tr)
-        y_pred = final_pipe.predict(X_va)
-        row = {"model": name, "params": best_params if best_params else {},
-               "MAE": mean_absolute_error(y_va, y_pred),
-               "RMSE": mean_squared_error(y_va, y_pred, squared=False),
-               "R2": r2_score(y_va, y_pred)}
-        comp_rows.append(row)
-        export_reg_preds(name, target_col, y_va, y_pred, va, id_cols, artifacts_dir)
-        fam_best[name] = {"pipe": final_pipe, "row": row}
+                best_rmse, best_params = rmse, params
+        final_p = spec["make"]()
+        if best_params: final_p.set_params(**best_params)
+        final_p.fit(X_tr, y_tr)
+        pred = final_p.predict(X_va)
+        rep = {
+            "model": name,
+            "MAE": mean_absolute_error(y_va, pred),
+            "RMSE": mean_squared_error(y_va, pred, squared=False),
+            "R2": r2_score(y_va, pred),
+        }
+        if best_report is None or rep["RMSE"] < best_report["RMSE"]:
+            best_name, best_pipe, best_report, best_pred = name, final_p, rep, pred
 
-    pd.DataFrame(comp_rows).to_csv(os.path.join(artifacts_dir, f"regression_model_comparison_{target_col}.csv"), index=False)
+    # Export split assignments
+    split_csv = os.path.join(artifacts_dir, f"split_assignments_regression_{target_col.replace(' ','_')}.csv")
+    _export_split_assignments(split_csv, tr, va, ids, target_col)
 
-    best_name = min(fam_best.keys(), key=lambda k: fam_best[k]["row"]["RMSE"])
-    best_pipe, best_report = fam_best[best_name]["pipe"], fam_best[best_name]["row"]
+    # Export ONE ready-to-plot per-row validation predictions
+    preds_csv = os.path.join(artifacts_dir, f"reg_best_{target_col.replace(' ','_')}_{best_name}_preds.csv")
+    _export_reg_preds(preds_csv, va, ids, y_va, best_pred)
+
+    # Save the best pipeline
     model_path = os.path.join(artifacts_dir, f"best_reg_{best_name}_{target_col}.joblib")
     joblib.dump(best_pipe, model_path)
-    return RegressionResult(best_name, best_report, model_path, artifacts_dir)
 
-# ---- inference ----
+    return RegressionResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
+
+# ----------------------------- Inference -----------------------------
 def predict(df_new: pd.DataFrame, model_or_path) -> np.ndarray:
+    """Load a saved Pipeline (or use a fitted one) and predict on raw DataFrame."""
     model = joblib.load(model_or_path) if isinstance(model_or_path, str) else model_or_path
     return model.predict(df_new)
