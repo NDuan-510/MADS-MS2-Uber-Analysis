@@ -1,3 +1,13 @@
+# artifacts & models
+artifacts/
+*.joblib
+*.pkl
+*.h5
+*.pt
 
-__pycache__
-.env
+# notebooks temp
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+*.log
