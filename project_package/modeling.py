@@ -1,13 +1,12 @@
 # project_package/modeling.py
 # Goal:
-# - Minimal, reliable training with leakage guard + time-based split when available.
-# - Explore a tiny hyperparameter grid across 3 families (fast).
+# - Minimal, reliable training with leakage guard
+# - Explore a tiny hyperparameter grid across 3 families.
 # - Pick ONE best model by F1 (classification) or RMSE (regression).
-# - Export only what a teammate needs to visualize:
+# - Export only what needs to visualize:
 #     (1) per-row validation predictions CSV,
 #     (2) split-assignments CSV (train/valid per row),
 #     (3) the best pipeline as .joblib.
-# No extra per-model CSVs, no heavy reports.
 
 from __future__ import annotations
 import os, joblib, numpy as np, pandas as pd
