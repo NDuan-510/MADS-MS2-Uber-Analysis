@@ -1,15 +1,15 @@
 # project_package/modeling.py
 # Goal:
-# - Minimal, reliable training with leakage guard
-# - Explore a tiny hyperparameter grid across 3 families.
+# - Minimal, reliable training with leakage guard + time-based split when available.
+# - Explore a tiny hyperparameter grid across 3 families 
 # - Pick ONE best model by F1 (classification) or RMSE (regression).
 # - Export only what needs to visualize:
 #     (1) per-row validation predictions CSV,
 #     (2) split-assignments CSV (train/valid per row),
-#     (3) the best pipeline as .joblib.
+
 
 from __future__ import annotations
-import os, joblib, numpy as np, pandas as pd
+import os, pickle, numpy as np, pandas as pd
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict, Iterable
 
@@ -75,7 +75,7 @@ def time_or_random_split(df: pd.DataFrame, target: str, valid_ratio=0.2, seed=42
         d = df.copy()
         d["booking_datetime"] = pd.to_datetime(d["booking_datetime"], errors="coerce")
         d = d.sort_values("booking_datetime").reset_index(drop=True)
-        cut = int(len(d) * (1 - valid_ratio))
+        cut = int(len(d) * (1 - valid_ratio))  # 80/20 by default
         return d.iloc[:cut].copy(), d.iloc[cut:].copy()
     strat = None
     if target in df.columns and set(pd.unique(df[target].dropna())) <= {0, 1}:
@@ -280,9 +280,10 @@ def train_classification_from_csv(
     preds_csv = os.path.join(artifacts_dir, f"cls_best_{best_name}_preds.csv")
     _export_cls_preds(preds_csv, va, ids, y_va, best_pred, best_proba)
 
-    # Save the best pipeline
-    model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.joblib")
-    joblib.dump(best_pipe, model_path)
+    # Save the best pipeline as .pkl (pickle only)
+    model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.pkl")
+    with open(model_path, "wb") as f:
+        pickle.dump(best_pipe, f)
 
     return ClassificationResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
@@ -355,14 +356,20 @@ def train_regression_from_csv(
     preds_csv = os.path.join(artifacts_dir, f"reg_best_{target_col.replace(' ','_')}_{best_name}_preds.csv")
     _export_reg_preds(preds_csv, va, ids, y_va, best_pred)
 
-    # Save the best pipeline
-    model_path = os.path.join(artifacts_dir, f"best_reg_{best_name}_{target_col}.joblib")
-    joblib.dump(best_pipe, model_path)
+    # Save the best pipeline as .pkl (pickle only)
+    model_path = os.path.join(artifacts_dir, f"best_reg_{best_name}_{target_col}.pkl")
+    with open(model_path, "wb") as f:
+        pickle.dump(best_pipe, f)
 
     return RegressionResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
 # ----------------------------- Inference -----------------------------
 def predict(df_new: pd.DataFrame, model_or_path) -> np.ndarray:
     """Load a saved Pipeline (or use a fitted one) and predict on raw DataFrame."""
-    model = joblib.load(model_or_path) if isinstance(model_or_path, str) else model_or_path
+    model = None
+    if isinstance(model_or_path, str):
+        with open(model_or_path, "rb") as f:
+            model = pickle.load(f)
+    else:
+        model = model_or_path
     return model.predict(df_new)
