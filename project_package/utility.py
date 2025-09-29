@@ -5,7 +5,11 @@ import re
 import glob
 
 import pandas as pd
+import numpy as np
 import dask.dataframe as dd
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 
 def require_batching(
     data_frame,
@@ -53,3 +57,66 @@ def read_data(
         return pd_df
     else:
         raise Exception('No file found.')
+
+def get_target_label(
+    dataset = 'iris',
+    binary_label = True
+    ):
+    
+    if dataset == 'iris':
+        labels = datasets.load_iris()['target_names']
+    elif dataset == 'cancer':
+        labels = datasets.load_breast_cancer()['target_names']
+    else:
+        labels = []
+    if binary_label:
+        labels = list(labels[:1]) + ['other']
+    return list(labels)
+
+def generate_data(
+    dataset = 'iris',
+    test_size=0.2,
+    binary_label = True,
+    add_random = False,
+    seed=None
+    ):
+
+    if dataset == 'iris':
+        X, y = datasets.load_iris(return_X_y=True)
+    elif dataset == 'cancer':
+        X, y = datasets.load_breast_cancer(return_X_y=True)
+    elif dataset == 'diabetes':
+        X, y = datasets.load_diabetes(return_X_y=True)
+    else:
+        data = None
+
+    np.random.seed(seed)
+    if add_random:
+        n_samples, n_features = X.shape
+        X = np.concatenate([X, np.random.randn(n_samples, 200 * n_features)], axis=1)
+
+    # X = data.data
+    # y = data.target
+    if np.unique(y).size > 10: # assume continuous data
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, 
+            test_size=test_size,
+            random_state=seed
+        )
+        return X_train, X_test, y_train, y_test
+    else:
+        if binary_label:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X[y<2], y[y<2], 
+                test_size=test_size,
+                stratify = y[y<2],
+                random_state=seed
+            )
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, 
+                test_size=test_size,
+                stratify = y,
+                random_state=seed
+                )
+        return X_train, X_test, y_train, y_test
