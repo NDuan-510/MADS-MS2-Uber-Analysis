@@ -1,34 +1,43 @@
 # project_package/modeling.py
 # Goal:
-# - Minimal, reliable training with leakage guard + time-based split when available.
-# - Explore a tiny hyperparameter grid across 3 families 
-# - Pick ONE best model by F1 (classification) or RMSE (regression).
-# - Export only what needs to visualize:
-#     (1) per-row validation predictions CSV,
-#     (2) split-assignments CSV (train/valid per row),
-
+# - Supervised: classification/regression with leakage guard + time-based split, tiny grids,
+#   pick ONE best model, export: (1) per-row validation preds CSV, (2) split-assignments CSV,
+#   (3) best pipeline .pkl (pickle only).
+# - Unsupervised: k-means (auto-pick best k by silhouette), isolation forest, PCA embeddings;
+#   export labels/scores/embeddings CSV + saved pipeline .pkl (pickle only).
+# - Keep dependencies light and interfaces simple.
 
 from __future__ import annotations
 import os, pickle, numpy as np, pandas as pd
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict, Iterable
 
+# ---------------- scikit-learn core ----------------
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 
+# Supervised models
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
+
+# Supervised metrics
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score,
     mean_absolute_error, mean_squared_error, r2_score, roc_auc_score,
 )
 
-# -------------------------- Leakage guard ----------------------------
+# Unsupervised models & metrics
+from sklearn.cluster import KMeans
+from sklearn.ensemble import IsolationForest
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+
+# ========================== Leakage guard ==========================
 # Post-outcome or tightly outcome-linked fields must never be used as features.
 EXCLUDE_ALWAYS = {
     "Booking Status",
@@ -48,7 +57,7 @@ EXCLUDE_ALWAYS = {
     "Driver Ratings_fill",
 }
 
-# ----------------------------- Utils --------------------------------
+# ============================== Utils ==============================
 def load_csv_dedup(path: str) -> pd.DataFrame:
     """Read CSV, drop duplicate-named columns, downcast numerics for speed/memory."""
     df = pd.read_csv(path, low_memory=False)
@@ -75,7 +84,7 @@ def time_or_random_split(df: pd.DataFrame, target: str, valid_ratio=0.2, seed=42
         d = df.copy()
         d["booking_datetime"] = pd.to_datetime(d["booking_datetime"], errors="coerce")
         d = d.sort_values("booking_datetime").reset_index(drop=True)
-        cut = int(len(d) * (1 - valid_ratio))  # 80/20 by default
+        cut = int(len(d) * (1 - valid_ratio))
         return d.iloc[:cut].copy(), d.iloc[cut:].copy()
     strat = None
     if target in df.columns and set(pd.unique(df[target].dropna())) <= {0, 1}:
@@ -137,7 +146,7 @@ def _product(grid: Dict[str, Iterable]) -> Iterable[Dict[str, object]]:
             yield from rec(i + 1)
     yield from rec(0)
 
-# ---------------------------- Results --------------------------------
+# =========================== Result holders =========================
 @dataclass
 class ClassificationResult:
     best_model_name: str
@@ -156,7 +165,30 @@ class RegressionResult:
     preds_csv_path: str
     split_csv_path: str
 
-# ---------------------------- Exporters ------------------------------
+@dataclass
+class ClusteringResult:
+    best_k: int
+    report: Dict[int, Dict[str, float]]   # k -> {silhouette, dbi, ch}
+    model_path: str
+    artifacts_dir: str
+    labels_csv_path: str
+    pca2_csv_path: str
+
+@dataclass
+class AnomalyResult:
+    contamination: float
+    model_path: str
+    artifacts_dir: str
+    scores_csv_path: str
+
+@dataclass
+class EmbeddingResult:
+    method: str
+    components: int
+    artifacts_dir: str
+    embed_csv_path: str
+
+# ============================ Export helpers =========================
 def _export_split_assignments(csv_path: str, train_df: pd.DataFrame, valid_df: pd.DataFrame,
                               id_cols: List[str], target_col: str):
     """Write a simple file telling which rows were train vs. validation (for viz & audit)."""
@@ -191,7 +223,7 @@ def _export_reg_preds(csv_path: str, valid_df: pd.DataFrame, id_cols: List[str],
     out["residual"] = out["y_true"] - out["y_pred"]
     out.to_csv(csv_path, index=False)
 
-# ---------------------------- Training -------------------------------
+# ========================= Supervised: Train =========================
 def train_classification_from_csv(
     csv_path: str,
     target_col: Optional[str] = None,     # None -> derive from Booking Status
@@ -216,6 +248,7 @@ def train_classification_from_csv(
     drop_cols = [c for c in ({target_col} | EXCLUDE_ALWAYS | set(ids)) if c in tr.columns]
     X_tr, X_va = tr.drop(columns=drop_cols, errors="ignore"), va.drop(columns=drop_cols, errors="ignore")
 
+    # Subset for quick tuning
     if tune_row_cap is not None and len(X_tr) > tune_row_cap:
         X_tune, y_tune = X_tr.iloc[:tune_row_cap], y_tr[:tune_row_cap]
     else:
@@ -280,7 +313,7 @@ def train_classification_from_csv(
     preds_csv = os.path.join(artifacts_dir, f"cls_best_{best_name}_preds.csv")
     _export_cls_preds(preds_csv, va, ids, y_va, best_pred, best_proba)
 
-    # Save the best pipeline as .pkl (pickle only)
+    # Save the best pipeline as .pkl
     model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
@@ -349,27 +382,179 @@ def train_regression_from_csv(
             best_name, best_pipe, best_report, best_pred = name, final_p, rep, pred
 
     # Export split assignments
-    split_csv = os.path.join(artifacts_dir, f"split_assignments_regression_{target_col.replace(' ','_')}.csv")
+    safe_tgt = target_col.replace(' ', '_')
+    split_csv = os.path.join(artifacts_dir, f"split_assignments_regression_{safe_tgt}.csv")
     _export_split_assignments(split_csv, tr, va, ids, target_col)
 
     # Export ONE ready-to-plot per-row validation predictions
-    preds_csv = os.path.join(artifacts_dir, f"reg_best_{target_col.replace(' ','_')}_{best_name}_preds.csv")
+    preds_csv = os.path.join(artifacts_dir, f"reg_best_{safe_tgt}_{best_name}_preds.csv")
     _export_reg_preds(preds_csv, va, ids, y_va, best_pred)
 
-    # Save the best pipeline as .pkl (pickle only)
+    # Save the best pipeline as .pkl
     model_path = os.path.join(artifacts_dir, f"best_reg_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
 
     return RegressionResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
-# ----------------------------- Inference -----------------------------
+# ========================== Supervised: Inference ====================
 def predict(df_new: pd.DataFrame, model_or_path) -> np.ndarray:
     """Load a saved Pipeline (or use a fitted one) and predict on raw DataFrame."""
-    model = None
     if isinstance(model_or_path, str):
         with open(model_or_path, "rb") as f:
             model = pickle.load(f)
     else:
         model = model_or_path
     return model.predict(df_new)
+
+# ========================= Unsupervised: Utils =======================
+def _unsup_feat_types(X: pd.DataFrame, max_cat=200):
+    num, cat = [], []
+    for c in X.columns:
+        s = X[c]
+        if pd.api.types.is_numeric_dtype(s) or pd.api.types.is_bool_dtype(s):
+            num.append(c)
+        elif pd.api.types.is_string_dtype(s) or pd.api.types.is_categorical_dtype(s):
+            if s.nunique(dropna=False) <= max_cat:
+                cat.append(c)
+    return num, cat
+
+def _unsup_pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
+    """Dense-friendly preprocessing for unsupervised (KMeans, IsoForest): median/most_frequent + Ordinal."""
+    num, cat = _unsup_feat_types(X, max_cat=200)
+    return ColumnTransformer(
+        [
+            ("num", SimpleImputer(strategy="median"), num),
+            ("cat", Pipeline([
+                ("imp", SimpleImputer(strategy="most_frequent")),
+                ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))
+            ]), cat),
+        ],
+        remainder="drop",
+    )
+
+def _build_unsup_X(df: pd.DataFrame, drop_cols: List[str]) -> Tuple[pd.DataFrame, ColumnTransformer, np.ndarray]:
+    X = df.drop(columns=[c for c in drop_cols if c in df.columns], errors="ignore")
+    pre = _unsup_pre_ordinal(X)
+    X_t = pre.fit_transform(X)
+    return X, pre, X_t
+
+# ========================= Unsupervised: KMeans ======================
+def run_kmeans_from_csv(
+    csv_path: str,
+    id_cols: Optional[List[str]] = None,
+    artifacts_dir: str = "artifacts/unsupervised",
+    k_list: List[int] = (3, 5, 8, 10),
+    random_state: int = 42,
+) -> ClusteringResult:
+    os.makedirs(artifacts_dir, exist_ok=True)
+    df = load_csv_dedup(csv_path)
+
+    # Reuse EXCLUDE_ALWAYS to avoid post-outcome leakage in clusters (adjust if desired)
+    drops = list(EXCLUDE_ALWAYS | set(id_cols or []))
+    X_raw, pre, X = _build_unsup_X(df, drops)
+
+    report: Dict[int, Dict[str, float]] = {}
+    best_k, best_sil, best_model = None, -np.inf, None
+
+    for k in k_list:
+        km = KMeans(n_clusters=k, n_init=10, random_state=random_state)
+        labels = km.fit_predict(X)
+        sil = silhouette_score(X, labels)
+        dbi = davies_bouldin_score(X, labels)
+        ch  = calinski_harabasz_score(X, labels)
+        report[k] = {"silhouette": float(sil), "dbi": float(dbi), "ch": float(ch)}
+        if sil > best_sil:
+            best_sil, best_k, best_model = sil, k, km
+
+    labels = best_model.predict(X)
+    # Export labels with IDs for easy join
+    lab_df = pd.DataFrame({"cluster": labels})
+    for c in (id_cols or []):
+        if c in df.columns:
+            lab_df[c] = df[c].values
+    labels_csv = os.path.join(artifacts_dir, f"kmeans_k{best_k}_labels.csv")
+    lab_df.to_csv(labels_csv, index=False)
+
+    # PCA(2D) for plotting
+    pca = PCA(n_components=2, random_state=random_state)
+    coords = pca.fit_transform(X)
+    pca2 = pd.DataFrame({"pc1": coords[:, 0], "pc2": coords[:, 1], "cluster": labels})
+    for c in (id_cols or []):
+        if c in df.columns:
+            pca2[c] = df[c].values
+    pca2_csv = os.path.join(artifacts_dir, f"kmeans_k{best_k}_pca2.csv")
+    pca2.to_csv(pca2_csv, index=False)
+
+    # Save pipeline as .pkl
+    pipe = Pipeline([("pre", pre), ("kmeans", best_model)])
+    model_path = os.path.join(artifacts_dir, f"kmeans_k{best_k}.pkl")
+    with open(model_path, "wb") as f:
+        pickle.dump(pipe, f)
+
+    return ClusteringResult(best_k, report, model_path, artifacts_dir, labels_csv, pca2_csv)
+
+# ===================== Unsupervised: Isolation Forest =================
+def run_isolation_forest_from_csv(
+    csv_path: str,
+    id_cols: Optional[List[str]] = None,
+    artifacts_dir: str = "artifacts/unsupervised",
+    contamination: float = 0.02,
+    random_state: int = 42,
+) -> AnomalyResult:
+    os.makedirs(artifacts_dir, exist_ok=True)
+    df = load_csv_dedup(csv_path)
+
+    drops = list(EXCLUDE_ALWAYS | set(id_cols or []))
+    X_raw, pre, X = _build_unsup_X(df, drops)
+
+    iso = IsolationForest(contamination=contamination, random_state=random_state)
+    scores = iso.fit_predict(X)  # -1 = outlier, 1 = inlier
+    score_val = iso.score_samples(X)  # lower = more anomalous
+
+    out = pd.DataFrame({"is_outlier": (scores == -1).astype(int), "anomaly_score": score_val})
+    for c in (id_cols or []):
+        if c in df.columns:
+            out[c] = df[c].values
+    scores_csv = os.path.join(artifacts_dir, "isoforest_scores.csv")
+    out.to_csv(scores_csv, index=False)
+
+    # Save pipeline as .pkl
+    pipe = Pipeline([("pre", pre), ("iso", iso)])
+    model_path = os.path.join(artifacts_dir, "isoforest.pkl")
+    with open(model_path, "wb") as f:
+        pickle.dump(pipe, f)
+
+    return AnomalyResult(contamination, model_path, artifacts_dir, scores_csv)
+
+# ======================== Unsupervised: PCA ==========================
+def run_pca_embeddings_from_csv(
+    csv_path: str,
+    id_cols: Optional[List[str]] = None,
+    artifacts_dir: str = "artifacts/unsupervised",
+    n_components: int = 2,
+    random_state: int = 42,
+) -> EmbeddingResult:
+    os.makedirs(artifacts_dir, exist_ok=True)
+    df = load_csv_dedup(csv_path)
+    drops = list(EXCLUDE_ALWAYS | set(id_cols or []))
+    X_raw, pre, X = _build_unsup_X(df, drops)
+
+    pca = PCA(n_components=n_components, random_state=random_state)
+    Z = pca.fit_transform(X)
+
+    cols = {f"pc{i+1}": Z[:, i] for i in range(n_components)}
+    out = pd.DataFrame(cols)
+    for c in (id_cols or []):
+        if c in df.columns:
+            out[c] = df[c].values
+
+    embed_csv = os.path.join(artifacts_dir, f"pca_{n_components}d.csv")
+    out.to_csv(embed_csv, index=False)
+
+    # Save pipeline (pre + PCA) as .pkl
+    pipe = Pipeline([("pre", pre), ("pca", pca)])
+    with open(os.path.join(artifacts_dir, f"pca_{n_components}d.pkl"), "wb") as f:
+        pickle.dump(pipe, f)
+
+    return EmbeddingResult("pca", n_components, artifacts_dir, embed_csv)
