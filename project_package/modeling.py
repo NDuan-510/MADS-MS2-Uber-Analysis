@@ -95,22 +95,42 @@ from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_har
 # ========================== Leakage guard ==========================
 # Post-outcome or tightly outcome-linked fields must never be used as features.
 EXCLUDE_ALWAYS = {
+    # Outcome / post-outcome or tightly coupled fields
     "Booking Status",
+
+    # Cancellation / incomplete reasons
     "Reason for cancelling by Customer_fill",
     "Driver Cancellation Reason_fill",
     "Incomplete Rides Reason_fill",
     "Incomplete Rides_fill",
     "Cancelled Rides by Customer_fill",
     "Cancelled Rides by Driver_fill",
-    "Avg VTAT_fill_scaled",
-    "Avg CTAT_fill_scaled",
-    "VTAT_missing_flag",
-    "CTAT_missing_flag",
+
+    # VTAT / CTAT (post-outcome-ish timing)
+    "Avg VTAT_fill_scaled", "Avg VTAT_fill", "Avg VTAT",
+    "Avg CTAT_fill_scaled", "Avg CTAT_fill", "Avg CTAT",
+    "VTAT_missing_flag", "CTAT_missing_flag",
+
+    # Booking value / ride distance (only certain after start/finish)
+    "Booking Value_fill_scaled", "Booking Value_fill", "Booking Value",
+    "Ride Distance_fill_scaled", "Ride Distance_fill", "Ride Distance",
     "BookingValue_missing_flag",
-    "Booking Value_fill_scaled",
-    "Customer Rating_fill",
-    "Driver Ratings_fill",
+
+    # Ratings (likely observed after or strongly correlated with outcome)
+    "Customer Rating_fill", "Customer Rating",
+    "Driver Ratings_fill",  "Driver Ratings",
+
+    # Destination geometry (typically confirmed after trip start)
+    "drop_longitude", "drop_latitude", "drop_address", "drop_region", "drop_locality",
+    "drop_station_latitude", "drop_station_longitude",
+
+    # Dropoff-side weather (future information relative to booking time)
+    "temperature_2m_dropoff_scaled", "relative_humidity_2m_dropoff_scaled",
+    "dew_point_2m_dropoff_scaled", "apparent_temperature_dropoff_scaled",
+    "wind_speed_10m_dropoff_scaled",
+    "precipitation_dropoff_log_scaled", "rain_dropoff_log_scaled", "snowfall_dropoff_log_scaled",
 }
+
 
 # ============================== Utils ==============================
 def load_csv_dedup(path: str) -> pd.DataFrame:
