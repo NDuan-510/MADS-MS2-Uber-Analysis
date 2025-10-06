@@ -1,2 +1,4 @@
 # but ignore this one big file (use the correct relative path)
 supervised/best_cls_rf__target_completed_.pkl
+*.pyc
+*.log
