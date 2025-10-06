@@ -58,7 +58,7 @@ def read_data(
     else:
         raise Exception('No file found.')
 
-def get_target_label(
+def get_target_labels(
     dataset = 'iris',
     binary_label = True
     ):
@@ -72,6 +72,20 @@ def get_target_label(
     if binary_label:
         labels = list(labels[:1]) + ['other']
     return list(labels)
+
+def get_feature_labels(
+    dataset = 'iris'
+    ):
+    
+    if dataset == 'iris':
+        labels = datasets.load_iris()['feature_names']
+    elif dataset == 'cancer':
+        labels = datasets.load_breast_cancer()['feature_names']
+    elif dataset == 'diabetes':
+        labels = datasets.load_diabetes()['feature_names']
+    else:
+        labels = []
+    return labels
 
 def generate_data(
     dataset = 'iris',
