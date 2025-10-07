@@ -1,0 +1,11 @@
+dir,file,ext,size_mb,mtime
+supervised_lite,supervised_lite\cls_best_logreg_preds.csv,.csv,0.14,2025-10-06T21:52:59
+supervised_lite,supervised_lite\cls_best_logreg_report.csv,.csv,0.0,2025-10-06T21:52:59
+supervised_lite,supervised_lite\reg_best_Booking_Value_fill_scaled_ridge_preds.csv,.csv,0.6,2025-10-06T21:53:12
+supervised_lite,supervised_lite\reg_best_Customer_Rating_fill_tree_preds.csv,.csv,0.52,2025-10-06T21:53:25
+supervised_lite,supervised_lite\split_assignments_classification.csv,.csv,0.46,2025-10-06T21:52:59
+supervised_lite,supervised_lite\split_assignments_regression_Booking_Value_fill_scaled.csv,.csv,2.5,2025-10-06T21:53:12
+supervised_lite,supervised_lite\split_assignments_regression_Customer_Rating_fill.csv,.csv,2.43,2025-10-06T21:53:25
+supervised_lite,supervised_lite\best_cls_logreg__target_completed_.pkl,.pkl,0.0,2025-10-06T21:52:59
+supervised_lite,supervised_lite\best_reg_ridge_Booking Value_fill_scaled.pkl,.pkl,0.0,2025-10-06T21:53:12
+supervised_lite,supervised_lite\best_reg_tree_Customer Rating_fill.pkl,.pkl,0.01,2025-10-06T21:53:25
