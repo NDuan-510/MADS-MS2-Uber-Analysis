@@ -114,10 +114,14 @@ EXCLUDE_ALWAYS = {
 
 # ============================== Utils ==============================
 def load_csv_dedup(path: str) -> pd.DataFrame:
-    """Read CSV, drop duplicate-named columns, downcast numerics for speed/memory."""
-    real = _resolve_csv_path(path)
-    df = pd.read_csv(real, low_memory=False)
+    df = pd.read_csv(path, low_memory=False)
+    # remove exact duplicate names (keeps first)
     df = df.loc[:, ~df.columns.duplicated()].copy()
+
+    # remove numbered duplicate variants like '.1', '.2'
+    df, _ = drop_suffix_variants(df)  # paste the helper into this file or import it
+
+    # downcast numerics for speed/memory
     for c in df.columns:
         s = df[c]
         if pd.api.types.is_float_dtype(s):
@@ -125,6 +129,8 @@ def load_csv_dedup(path: str) -> pd.DataFrame:
         elif pd.api.types.is_integer_dtype(s):
             df[c] = pd.to_numeric(s, downcast="integer")
     return df
+
+
 
 def make_binary_target(df: pd.DataFrame, status_col="Booking Status") -> Tuple[pd.DataFrame, str]:
     """Derive binary target: contains 'completed' -> 1 else 0."""
@@ -161,13 +167,21 @@ def feat_types(X: pd.DataFrame, max_cat=200):
     return num, cat
 
 def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
-    """For linear/distance models: median-impute + standardize numerics; OHE cats."""
+    """
+    For linear/distance models: median-impute numerics; OHE cats.
+    NOTE: We deliberately remove StandardScaler() to avoid double-scaling,
+    because upstream preprocessing already produced *_scaled features.
+    """
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
-            ("num", Pipeline([("imp", SimpleImputer(strategy="median")), ("sc", StandardScaler())]), num),
-            ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
-                              ("ohe", OneHotEncoder(handle_unknown="ignore"))]), cat),
+            # numeric: impute only (no scaling)
+            ("num", SimpleImputer(strategy="median"), num),
+            # categorical: impute + one-hot
+            ("cat", Pipeline([
+                ("imp", SimpleImputer(strategy="most_frequent")),
+                ("ohe", OneHotEncoder(handle_unknown="ignore")),
+            ]), cat),
         ],
         remainder="drop",
         sparse_threshold=1.0,
