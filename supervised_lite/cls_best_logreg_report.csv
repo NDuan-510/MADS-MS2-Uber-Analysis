@@ -1,0 +1,2 @@
+model,accuracy,precision,recall,f1,roc_auc
+logreg,1.0,1.0,1.0,1.0,1.0
