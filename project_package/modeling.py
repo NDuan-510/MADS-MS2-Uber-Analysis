@@ -1,20 +1,26 @@
 # project_package/modeling.py
 # Goal:
-# - Supervised: classification/regression with leakage guard + time-based split, tiny grids,
+# - Supervised: classification/regression with leakage guard + time-aware split, tiny grids,
 #   pick ONE best model, export: (1) per-row validation preds CSV, (2) split-assignments CSV,
-#   (3) best pipeline .pkl (pickle only) + a one-line report CSV.
+#   (3) best pipeline .pkl (pickle only) + (optional) one-line report CSV.
 # - Unsupervised: k-means (auto-pick best k by silhouette), isolation forest, PCA embeddings;
 #   export labels/scores/embeddings CSV + saved pipeline .pkl (pickle only).
-# - Robust paths: auto-detect project root (folder that contains `project_package`),
+# - Robust paths: auto-detect project root (the folder that contains `project_package`),
 #   auto-locate CSV in root or ./datasets, artifacts saved under <project_root>/Model/{supervised|unsupervised}.
+# - Keep dependencies light and interfaces simple.
 
 from __future__ import annotations
-import os, sys, pickle, fnmatch, numpy as np, pandas as pd
+
+import os, sys, re, fnmatch, pickle
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict, Iterable
 
+import numpy as np
+import pandas as pd
+
 # ---------------- Project root & path helpers (works even if notebooks live under /Model) -----
 def _find_project_root(marker_folder: str = "project_package", max_up: int = 8) -> str:
+    """Walk upward until a folder containing `marker_folder` is found; fallback to CWD."""
     cur = os.path.abspath(os.getcwd())
     for _ in range(max_up + 1):
         if os.path.isdir(os.path.join(cur, marker_folder)):
@@ -71,7 +77,7 @@ def _resolve_artifacts_dir(subdir: str) -> str:
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder  # NOTE: no StandardScaler to avoid double scaling
 from sklearn.impute import SimpleImputer
 
 # Supervised models
@@ -113,14 +119,53 @@ EXCLUDE_ALWAYS = {
 }
 
 # ============================== Utils ==============================
+_SUFFIX_RE = re.compile(r"\.(\d+)$")
+
+def _base_col(name: str) -> str:
+    """Strip suffix like '.1', '.2' from a column name (for duplicate columns)."""
+    return _SUFFIX_RE.sub("", name)
+
+def drop_suffix_variants(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, list[str]]]:
+    """
+    Collapse duplicated columns that appear as base, base.1, base.2...
+    Keep the non-suffixed base if present; otherwise keep the first variant.
+    Merge values by combine_first, then drop the extra variants.
+    Returns (new_df, dropped_dict) where dropped_dict[base] = list_of_dropped_cols.
+    """
+    groups: dict[str, list[str]] = {}
+    for c in df.columns:
+        b = _base_col(c)
+        groups.setdefault(b, []).append(c)
+
+    out = df.copy()
+    dropped: dict[str, list[str]] = {}
+    for b, cols in groups.items():
+        if len(cols) <= 1:
+            continue
+        # prefer the non-suffixed column as the keeper if it exists
+        cols_sorted = sorted(cols, key=lambda x: ('.' in x, x))  # base first, then .1, .2...
+        s = out[cols_sorted[0]]
+        for c in cols_sorted[1:]:
+            s = s.combine_first(out[c])
+        out[b] = s
+
+        keep = b if b in cols else cols_sorted[0]
+        to_drop = [c for c in cols if c != keep]
+        out.drop(columns=to_drop, inplace=True, errors="ignore")
+        dropped[b] = to_drop
+
+    # defensive: remove any remaining duplicate-named columns
+    out = out.loc[:, ~out.columns.duplicated()].copy()
+    return out, dropped
+
 def load_csv_dedup(path: str) -> pd.DataFrame:
+    """Read CSV, remove duplicated-named cols + '.1/.2' variants, downcast numerics."""
+    path = _resolve_csv_path(path)
     df = pd.read_csv(path, low_memory=False)
     # remove exact duplicate names (keeps first)
     df = df.loc[:, ~df.columns.duplicated()].copy()
-
     # remove numbered duplicate variants like '.1', '.2'
-    df, _ = drop_suffix_variants(df)  # paste the helper into this file or import it
-
+    df, _ = drop_suffix_variants(df)
     # downcast numerics for speed/memory
     for c in df.columns:
         s = df[c]
@@ -129,8 +174,6 @@ def load_csv_dedup(path: str) -> pd.DataFrame:
         elif pd.api.types.is_integer_dtype(s):
             df[c] = pd.to_numeric(s, downcast="integer")
     return df
-
-
 
 def make_binary_target(df: pd.DataFrame, status_col="Booking Status") -> Tuple[pd.DataFrame, str]:
     """Derive binary target: contains 'completed' -> 1 else 0."""
@@ -161,23 +204,23 @@ def feat_types(X: pd.DataFrame, max_cat=200):
         s = X[c]
         if pd.api.types.is_numeric_dtype(s) or pd.api.types.is_bool_dtype(s):
             num.append(c)
-        elif pd.api.types.is_string_dtype(s) or pd.api.types.is_categorical_dtype(s):
-            if s.nunique(dropna=False) <= max_cat:
-                cat.append(c)
+        else:
+            # treat strings and pandas categorical as categorical
+            if pd.api.types.is_string_dtype(s) or isinstance(s.dtype, pd.CategoricalDtype):
+                if s.nunique(dropna=False) <= max_cat:
+                    cat.append(c)
     return num, cat
 
 def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
     """
-    For linear/distance models: median-impute numerics; OHE cats.
-    NOTE: We deliberately remove StandardScaler() to avoid double-scaling,
+    For linear/distance models: numeric median-impute; categorical most-freq + OHE.
+    NOTE: We deliberately remove StandardScaler() to avoid double scaling,
     because upstream preprocessing already produced *_scaled features.
     """
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
-            # numeric: impute only (no scaling)
             ("num", SimpleImputer(strategy="median"), num),
-            # categorical: impute + one-hot
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ohe", OneHotEncoder(handle_unknown="ignore")),
@@ -188,13 +231,15 @@ def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
     )
 
 def pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
-    """For trees: median-impute numerics; most-freq + Ordinal for cats (unknown -> -1)."""
+    """For trees: numeric median-impute; categorical most-freq + Ordinal (unknown -> -1)."""
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
             ("num", SimpleImputer(strategy="median"), num),
-            ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
-                              ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))]), cat),
+            ("cat", Pipeline([
+                ("imp", SimpleImputer(strategy="most_frequent")),
+                ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)),
+            ]), cat),
         ],
         remainder="drop",
     )
@@ -304,8 +349,8 @@ def train_classification_from_csv(
     tune_row_cap: Optional[int] = 40000,
 ) -> ClassificationResult:
     artifacts_dir = _resolve_artifacts_dir(artifacts_dir)
-
     df = load_csv_dedup(csv_path)
+
     if target_col is None or target_col not in df.columns:
         df, target_col = make_binary_target(df)
 
@@ -383,11 +428,11 @@ def train_classification_from_csv(
     preds_csv = os.path.join(artifacts_dir, f"cls_best_{best_name}_preds.csv")
     _export_cls_preds(preds_csv, va, ids, y_va, best_pred, best_proba)
 
-    # Save model + one-line report
+    # Save model + optional one-line report
     model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
-    pd.DataFrame([best_report]).to_csv(os.path.join(artifacts_dir, f"cls_best_{best_name}_report.csv"), index=False)
+    # pd.DataFrame([best_report]).to_csv(os.path.join(artifacts_dir, f"cls_best_{best_name}_report.csv"), index=False)
 
     return ClassificationResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
@@ -401,7 +446,6 @@ def train_regression_from_csv(
     tune_row_cap: Optional[int] = 40000,
 ) -> RegressionResult:
     artifacts_dir = _resolve_artifacts_dir(artifacts_dir)
-
     df = load_csv_dedup(csv_path)
     ids = id_cols or []
 
@@ -482,13 +526,14 @@ def _unsup_feat_types(X: pd.DataFrame, max_cat=200):
         s = X[c]
         if pd.api.types.is_numeric_dtype(s) or pd.api.types.is_bool_dtype(s):
             num.append(c)
-        elif pd.api.types.is_string_dtype(s) or pd.api.types.is_categorical_dtype(s):
-            if s.nunique(dropna=False) <= max_cat:
-                cat.append(c)
+        else:
+            if pd.api.types.is_string_dtype(s) or isinstance(s.dtype, pd.CategoricalDtype):
+                if s.nunique(dropna=False) <= max_cat:
+                    cat.append(c)
     return num, cat
 
 def _unsup_pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
-    """Dense-friendly preprocessing for unsupervised (KMeans, IsoForest): median/most_frequent + Ordinal."""
+    """Dense-friendly preprocessing for unsupervised (KMeans, IsoForest): numeric median; cat most-freq + Ordinal."""
     num, cat = _unsup_feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
@@ -526,7 +571,8 @@ def run_kmeans_from_csv(
     best_k, best_sil, best_model = None, -np.inf, None
 
     for k in k_list:
-        km = KMeans(n_clusters=k, n_init=10, random_state=random_state)  # int for broad sklearn compatibility
+        # use integer n_init for broad scikit-learn compatibility
+        km = KMeans(n_clusters=k, n_init=10, random_state=random_state)
         labels = km.fit_predict(X)
         sil = silhouette_score(X, labels)
         dbi = davies_bouldin_score(X, labels)
@@ -536,6 +582,7 @@ def run_kmeans_from_csv(
             best_sil, best_k, best_model = sil, k, km
 
     labels = best_model.predict(X)
+    # Export labels with IDs for easy join
     lab_df = pd.DataFrame({"cluster": labels})
     for c in (id_cols or []):
         if c in df.columns:
@@ -543,6 +590,7 @@ def run_kmeans_from_csv(
     labels_csv = os.path.join(artifacts_dir, f"kmeans_k{best_k}_labels.csv")
     lab_df.to_csv(labels_csv, index=False)
 
+    # PCA(2D) for plotting
     pca = PCA(n_components=2, random_state=random_state)
     coords = pca.fit_transform(X)
     pca2 = pd.DataFrame({"pc1": coords[:, 0], "pc2": coords[:, 1], "cluster": labels})
@@ -552,6 +600,7 @@ def run_kmeans_from_csv(
     pca2_csv = os.path.join(artifacts_dir, f"kmeans_k{best_k}_pca2.csv")
     pca2.to_csv(pca2_csv, index=False)
 
+    # Save pipeline as .pkl
     pipe = Pipeline([("pre", pre), ("kmeans", best_model)])
     model_path = os.path.join(artifacts_dir, f"kmeans_k{best_k}.pkl")
     with open(model_path, "wb") as f:
@@ -616,6 +665,7 @@ def run_pca_embeddings_from_csv(
     embed_csv = os.path.join(artifacts_dir, f"pca_{n_components}d.csv")
     out.to_csv(embed_csv, index=False)
 
+    # Save pipeline (pre + PCA) as .pkl
     pipe = Pipeline([("pre", pre), ("pca", pca)])
     model_pkl = os.path.join(artifacts_dir, f"pca_{n_components}d.pkl")
     with open(model_pkl, "wb") as f:
