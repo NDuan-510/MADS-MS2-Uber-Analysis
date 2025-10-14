@@ -71,6 +71,7 @@ def ablation_test(
     cv=10,
     stratify = True,
     remove_features: list = None,
+    n_jobs = None,
     random_state = None
 ):
     cross_scores = []
@@ -88,7 +89,7 @@ def ablation_test(
 
     base_cross_score = cross_val_score(
         model, train_data.drop(columns=[target_col]), train_data[target_col], 
-        cv=cv,scoring=scorer
+        cv=cv,scoring=scorer,n_jobs=n_jobs
         )
     
     cross_scores.append(base_cross_score)
@@ -101,7 +102,8 @@ def ablation_test(
             abla_train = train_data.drop(columns=[target_col,col])
             abla_test = test_data.drop(columns=[target_col,col])
 
-            cross_score = cross_val_score(test_model, abla_train, train_data[target_col], cv=cv,scoring=scorer)
+            cross_score = cross_val_score(test_model, abla_train, train_data[target_col], cv=cv,scoring=scorer,
+                                          n_jobs=n_jobs)
 
             test_model.fit(abla_train,train_data[target_col])
             test_score = scorer(test_model,abla_test,test_data[target_col])
@@ -119,7 +121,8 @@ def ablation_test(
             abla_train = train_data.drop(columns=remove_cols)
             abla_test = test_data.drop(columns=remove_cols)
 
-            cross_score = cross_val_score(test_model, abla_train, train_data[target_col], cv=cv,scoring=scorer)
+            cross_score = cross_val_score(test_model, abla_train, train_data[target_col], cv=cv,scoring=scorer,
+                                          n_jobs=n_jobs)
 
             test_model.fit(abla_train,train_data[target_col])
             test_score = scorer(test_model,abla_test,test_data[target_col])
@@ -148,8 +151,8 @@ def permutation_test(
     target_col,
     scorer = 'r2',
     n_repeats = 10,
-    random_state = None
-    
+    random_state = None,
+    n_jobs = None
 ):  
 
     feature_cols = train_data.columns.drop(target_col)
@@ -160,7 +163,7 @@ def permutation_test(
             train_data[target_col],
             scoring=scorer,
             n_repeats=n_repeats, 
-            random_state=random_state)
+            random_state=random_state,n_jobs=n_jobs)
     
     test_permutation = permutation_importance(
             model, 
@@ -168,7 +171,7 @@ def permutation_test(
             test_data[target_col],
             scoring=scorer,
             n_repeats=n_repeats, 
-            random_state=random_state)
+            random_state=random_state,n_jobs=n_jobs)
     
     return train_permutation,test_permutation
 
@@ -179,12 +182,13 @@ def supervised_sensivity_test(
     param_grid:dict,
     scoring: Union[dict,str] = 'r2',
     cv = 10,
+    n_jobs = None,
     verbose = 0
 ):  
     output_df = None
     if type(scoring) == dict:
         for score_name,scorer in scoring.items():
-            grid_model = GridSearchCV(model,param_grid,scoring=scorer,cv=cv,verbose=verbose)
+            grid_model = GridSearchCV(model,param_grid,scoring=scorer,cv=cv,verbose=verbose,n_jobs=n_jobs)
             grid_model.fit(train_data.drop(columns=[target_col]),train_data[target_col])
             if output_df is None:
                 output_df = pd.DataFrame(grid_model.cv_results_['params'])
@@ -194,7 +198,7 @@ def supervised_sensivity_test(
                 output_df[score_name] = grid_model.cv_results_['mean_test_score']
                 output_df[score_name + '_std'] = grid_model.cv_results_['std_test_score']
     else:
-        grid_model = GridSearchCV(model,param_grid,scoring=scoring,cv=cv,verbose=verbose)
+        grid_model = GridSearchCV(model,param_grid,scoring=scoring,cv=cv,verbose=verbose,n_jobs=n_jobs)
 
         grid_model.fit(train_data.drop(columns=[target_col]),train_data[target_col])
 
@@ -212,6 +216,7 @@ def learning_curve_test(
         scorer = make_scorer(r2_score),
         cv=10,
         stratify = True,
+        n_jobs = None,
         random_state = None
         ):
     
@@ -235,7 +240,7 @@ def learning_curve_test(
                 X, y, train_size=n,stratify=target_col, random_state=random_state
             )
 
-        cross_score = cross_val_score(test_model, X_train, y_train, cv=cv,scoring=scorer)
+        cross_score = cross_val_score(test_model, X_train, y_train, cv=cv,scoring=scorer,n_jobs=n_jobs)
         
         cross_scores.append(cross_score)
     
@@ -262,14 +267,15 @@ def shap_analysis(
 
     input_train_df = train_df.drop(columns=[target_col]).copy()
     input_test_df = test_df.drop(columns=[target_col]).copy()
-    columns = input_train_df.columns
+    # columns = input_train_df.columns
 
     input_model = fitted_model
     if type(fitted_model)==Pipeline:
         preprocess = fitted_model[:-1]
+        features = preprocess.get_feature_names_out()
         input_model = fitted_model[-1]
-        input_train_df = pd.DataFrame(preprocess.transform(input_train_df),columns = columns)
-        input_test_df = pd.DataFrame(preprocess.transform(input_test_df),columns = columns)
+        input_train_df = pd.DataFrame(preprocess.transform(input_train_df),columns = features)
+        input_test_df = pd.DataFrame(preprocess.transform(input_test_df),columns = features)
 
     masker = shap.maskers.Independent(input_train_df)
     
@@ -298,7 +304,7 @@ def get_worst_examples(
     if problem_type == 'classification':  # handle only binary classification for now
         y_pred = model.predict(test_data.drop(columns=[target_col]))
         y_pred_proba = model.predict_proba(test_data.drop(columns=[target_col]))
-        if is_classifier(model):
+        if is_classifier(model) and hasattr(model,'decision_function'):
             y_decision = model.decision_function(test_data.drop(columns=[target_col]))
             df = pd.DataFrame({
                 'true_label': y_test,
@@ -308,7 +314,7 @@ def get_worst_examples(
                 'decision_function':y_decision
             })
         else:
-            f = pd.DataFrame({
+            df = pd.DataFrame({
                 'true_label': y_test,
                 'predicted_label': y_pred,
                 'probability_0': y_pred_proba[:,0],

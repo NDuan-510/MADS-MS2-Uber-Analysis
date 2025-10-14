@@ -14,7 +14,7 @@ from __future__ import annotations
 import os, sys, re, fnmatch, pickle
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict, Iterable
-
+from sklearn.compose import make_column_selector
 import numpy as np
 import pandas as pd
 
@@ -220,11 +220,11 @@ def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
-            ("num", SimpleImputer(strategy="median"), num),
+            ("num", SimpleImputer(strategy="median"), make_column_selector(dtype_include=np.number)),
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ohe", OneHotEncoder(handle_unknown="ignore")),
-            ]), cat),
+            ]), make_column_selector(dtype_include=object)),
         ],
         remainder="drop",
         sparse_threshold=1.0,
@@ -235,11 +235,11 @@ def pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
     num, cat = feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
-            ("num", SimpleImputer(strategy="median"), num),
+            ("num", SimpleImputer(strategy="median"), make_column_selector(dtype_include=np.number)),
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)),
-            ]), cat),
+            ]), make_column_selector(dtype_include=object)),
         ],
         remainder="drop",
     )
@@ -537,11 +537,11 @@ def _unsup_pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
     num, cat = _unsup_feat_types(X, max_cat=200)
     return ColumnTransformer(
         [
-            ("num", SimpleImputer(strategy="median"), num),
+            ("num", SimpleImputer(strategy="median"), make_column_selector(dtype_include=np.number)),
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1))
-            ]), cat),
+            ]), make_column_selector(dtype_include=object)),
         ],
         remainder="drop",
     )
@@ -672,3 +672,8 @@ def run_pca_embeddings_from_csv(
         pickle.dump(pipe, f)
 
     return EmbeddingResult("pca", n_components, artifacts_dir, embed_csv)
+
+def drop_unnecessary_cols(df,target_col,ids = ["Booking ID", "Customer ID"]):
+    drop_cols = [c for c in (set(ids) | EXCLUDE_ALWAYS | {target_col}) if c in df.columns]
+    result_df =  df.drop(columns=drop_cols, errors="ignore")
+    return result_df
