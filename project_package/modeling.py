@@ -17,6 +17,9 @@ from typing import List, Optional, Tuple, Dict, Iterable
 from sklearn.compose import make_column_selector
 import numpy as np
 import pandas as pd
+from sklearn.compose import ColumnTransformer, make_column_selector 
+
+
 
 # ---------------- Project root & path helpers (works even if notebooks live under /Model) -----
 def _find_project_root(marker_folder: str = "project_package", max_up: int = 8) -> str:
@@ -214,32 +217,34 @@ def feat_types(X: pd.DataFrame, max_cat=200):
 def pre_ohe_scaled(X: pd.DataFrame) -> ColumnTransformer:
     """
     For linear/distance models: numeric median-impute; categorical most-freq + OHE.
-    NOTE: We deliberately remove StandardScaler() to avoid double scaling,
-    because upstream preprocessing already produced *_scaled features.
+    NOTE: We deliberately remove StandardScaler() to avoid double scaling.
     """
-    num, cat = feat_types(X, max_cat=200)
+
     return ColumnTransformer(
         [
-            ("num", SimpleImputer(strategy="median"), make_column_selector(dtype_include=np.number)),
+            ("num", SimpleImputer(strategy="median"), 
+             make_column_selector(dtype_include=np.number)),
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ohe", OneHotEncoder(handle_unknown="ignore")),
-            ]), make_column_selector(dtype_include=object)),
+            ]), 
+             make_column_selector(dtype_include=object)), 
         ],
         remainder="drop",
         sparse_threshold=1.0,
     )
 
 def pre_ordinal(X: pd.DataFrame) -> ColumnTransformer:
-    """For trees: numeric median-impute; categorical most-freq + Ordinal (unknown -> -1)."""
-    num, cat = feat_types(X, max_cat=200)
+    """For trees: numeric median-impute; categorical most-freq + Ordinal."""
     return ColumnTransformer(
         [
-            ("num", SimpleImputer(strategy="median"), make_column_selector(dtype_include=np.number)),
+            ("num", SimpleImputer(strategy="median"), 
+             make_column_selector(dtype_include=np.number)),
             ("cat", Pipeline([
                 ("imp", SimpleImputer(strategy="most_frequent")),
                 ("ord", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1)),
-            ]), make_column_selector(dtype_include=object)),
+            ]), 
+             make_column_selector(dtype_include=object)),
         ],
         remainder="drop",
     )
@@ -341,13 +346,16 @@ def _export_reg_preds(csv_path: str, valid_df: pd.DataFrame, id_cols: List[str],
 # ========================= Supervised: Train =========================
 def train_classification_from_csv(
     csv_path: str,
-    target_col: Optional[str] = None,     # None -> derive from Booking Status
-    id_cols: Optional[List[str]] = None,  # IDs removed from X but kept in CSV exports
+    target_col: Optional[str] = None,    # None -> derive from Booking Status
+    id_cols: Optional[List[str]] = None, # IDs removed from X but kept in CSV exports
     artifacts_dir: str = "Model/supervised",
     valid_ratio: float = 0.2,
     random_state: int = 42,
     tune_row_cap: Optional[int] = 40000,
 ) -> ClassificationResult:
+    """
+    Trains and evaluates multiple classification models from a CSV file, selects the best one based on F1-macro score.
+    """
     artifacts_dir = _resolve_artifacts_dir(artifacts_dir)
     df = load_csv_dedup(csv_path)
 
@@ -355,15 +363,13 @@ def train_classification_from_csv(
         df, target_col = make_binary_target(df)
 
     ids = id_cols or []
-    if ids:
-        df = df.drop(columns=[c for c in ids if c in df.columns], errors="ignore")
 
     tr, va = time_or_random_split(df, target_col, valid_ratio, random_state)
     y_tr, y_va = tr[target_col].astype(int).values, va[target_col].astype(int).values
     drop_cols = [c for c in ({target_col} | EXCLUDE_ALWAYS | set(ids)) if c in tr.columns]
     X_tr, X_va = tr.drop(columns=drop_cols, errors="ignore"), va.drop(columns=drop_cols, errors="ignore")
 
-    # Subset for quick tuning
+    # Subset for quick tuning if the training set is large
     if tune_row_cap is not None and len(X_tr) > tune_row_cap:
         X_tune, y_tune = X_tr.iloc[:tune_row_cap], y_tr[:tune_row_cap]
     else:
@@ -393,34 +399,43 @@ def train_classification_from_csv(
 
     best_name, best_pipe, best_report, best_pred, best_proba = None, None, None, None, None
     for name, spec in families.items():
-        # Tune on subset
-        best_params, best_f1 = None, -np.inf
+        # Tune on subset to find best parameters
+        best_params, best_f1_tune = None, -np.inf
         for params in _product(spec["grid"]):
-            p = spec["make"](); p.set_params(**params); p.fit(X_tune, y_tune)
-            f1 = f1_score(y_va, p.predict(X_va), zero_division=0)
-            if f1 > best_f1:
-                best_f1, best_params = f1, params
-        # Refit on full train and evaluate on validation
+            p = spec["make"]()
+            p.set_params(**params)
+            p.fit(X_tune, y_tune)
+            # Use f1_macro for tuning as well for consistency
+            f1 = f1_score(y_va, p.predict(X_va), zero_division=0, average='macro')
+            if f1 > best_f1_tune:
+                best_f1_tune, best_params = f1, params
+        
+        # Refit on full training data and evaluate on validation set
         final_p = spec["make"]()
-        if best_params: final_p.set_params(**best_params)
+        if best_params:
+            final_p.set_params(**best_params)
         final_p.fit(X_tr, y_tr)
         pred = final_p.predict(X_va)
+        
         rep = {
             "model": name,
             "accuracy": accuracy_score(y_va, pred),
-            "precision": precision_score(y_va, pred, zero_division=0),
-            "recall": recall_score(y_va, pred, zero_division=0),
-            "f1": f1_score(y_va, pred, zero_division=0),
+            "precision_macro": precision_score(y_va, pred, zero_division=0, average='macro'),
+            "recall_macro": recall_score(y_va, pred, zero_division=0, average='macro'),
+            "f1_macro": f1_score(y_va, pred, zero_division=0, average='macro'),
         }
+        
         try:
             proba = final_p.predict_proba(X_va)[:, 1]
             rep["roc_auc"] = roc_auc_score(y_va, proba)
         except Exception:
             proba = None
-        if best_report is None or rep["f1"] > best_report["f1"]:
+        
+        # --- This is the corrected line ---
+        if best_report is None or rep["f1_macro"] > best_report["f1_macro"]:
             best_name, best_pipe, best_report, best_pred, best_proba = name, final_p, rep, pred, proba
 
-    # Export split assignments
+    # Export split assignments for audit and visualization
     split_csv = os.path.join(artifacts_dir, "split_assignments_classification.csv")
     _export_split_assignments(split_csv, tr, va, ids, target_col)
 
@@ -428,11 +443,10 @@ def train_classification_from_csv(
     preds_csv = os.path.join(artifacts_dir, f"cls_best_{best_name}_preds.csv")
     _export_cls_preds(preds_csv, va, ids, y_va, best_pred, best_proba)
 
-    # Save model + optional one-line report
+    # Save the best model pipeline as a pickle file
     model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
-    # pd.DataFrame([best_report]).to_csv(os.path.join(artifacts_dir, f"cls_best_{best_name}_report.csv"), index=False)
 
     return ClassificationResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
