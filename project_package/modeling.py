@@ -11,6 +11,7 @@
 
 from __future__ import annotations
 
+import warnings
 import os, sys, re, fnmatch, pickle
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Dict, Iterable
@@ -18,8 +19,9 @@ from sklearn.compose import make_column_selector
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_selector 
+from sklearn.model_selection import GridSearchCV, KFold
 
-
+warnings.filterwarnings("ignore")
 
 # ---------------- Project root & path helpers (works even if notebooks live under /Model) -----
 def _find_project_root(marker_folder: str = "project_package", max_up: int = 8) -> str:
@@ -352,6 +354,8 @@ def train_classification_from_csv(
     valid_ratio: float = 0.2,
     random_state: int = 42,
     tune_row_cap: Optional[int] = 40000,
+    cv_splits: int = 10,
+    scoring: str = "f1_macro",
 ) -> ClassificationResult:
     """
     Trains and evaluates multiple classification models from a CSV file, selects the best one based on F1-macro score.
@@ -377,63 +381,77 @@ def train_classification_from_csv(
 
     families = {
         "logreg": {
-            "make": lambda: Pipeline([("pre", pre_ohe_scaled(X_tr)),
-                                      ("clf", LogisticRegression(solver="saga", max_iter=2000,
-                                                                 class_weight="balanced",
-                                                                 random_state=random_state))]),
-            "grid": {"clf__C": [0.5, 1.0, 2.0]}
+            "pipe": Pipeline([
+                ("pre", pre_ohe_scaled(X_tr)),
+                ("clf", LogisticRegression(
+                    solver="saga", max_iter=2000, class_weight="balanced", random_state=random_state
+                ))
+            ]),
+            "grid": {"clf__C": [0.001, 0.01, 0.1, 1, 10, 100]},
         },
         "rf": {
-            "make": lambda: Pipeline([("pre", pre_ordinal(X_tr)),
-                                      ("clf", RandomForestClassifier(n_estimators=200,
-                                                                     class_weight="balanced",
-                                                                     n_jobs=-1, random_state=random_state))]),
-            "grid": {"clf__n_estimators": [200, 300], "clf__max_depth": [None, 12]}
+            "pipe": Pipeline([
+                ("pre", pre_ordinal(X_tr)),
+                ("clf", RandomForestClassifier(
+                    n_estimators=200, class_weight="balanced", n_jobs=-1, random_state=random_state
+                ))
+            ]),
+            "grid": {
+                "clf__n_estimators": [100, 200, 300],
+                "clf__max_depth": [5, 7, 9, 11],
+                "clf__min_samples_leaf": [1, 3, 5],
+            },
         },
         "knn": {
-            "make": lambda: Pipeline([("pre", pre_ohe_scaled(X_tr)),
-                                      ("clf", KNeighborsClassifier())]),
-            "grid": {"clf__n_neighbors": [9, 21], "clf__weights": ["uniform", "distance"]}
+            "pipe": Pipeline([
+                ("pre", pre_ohe_scaled(X_tr)),
+                ("clf", KNeighborsClassifier())
+            ]),
+            "grid": {
+                "clf__n_neighbors": [3, 5, 7, 10, 15],
+                "clf__weights": ["uniform", "distance"]
+            },
         },
     }
 
     best_name, best_pipe, best_report, best_pred, best_proba = None, None, None, None, None
+    cv = KFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
+
     for name, spec in families.items():
-        # Tune on subset to find best parameters
-        best_params, best_f1_tune = None, -np.inf
-        for params in _product(spec["grid"]):
-            p = spec["make"]()
-            p.set_params(**params)
-            p.fit(X_tune, y_tune)
-            # Use f1_macro for tuning as well for consistency
-            f1 = f1_score(y_va, p.predict(X_va), zero_division=0, average='macro')
-            if f1 > best_f1_tune:
-                best_f1_tune, best_params = f1, params
-        
+
+        gs = GridSearchCV(
+            estimator=spec["pipe"],
+            param_grid=spec["grid"],
+            scoring=scoring,
+            cv=cv,
+            n_jobs=-1,
+            verbose=0,
+        )
+
+        gs.fit(X_tune, y_tune)
+        best_model = gs.best_estimator_
+
         # Refit on full training data and evaluate on validation set
-        final_p = spec["make"]()
-        if best_params:
-            final_p.set_params(**best_params)
-        final_p.fit(X_tr, y_tr)
-        pred = final_p.predict(X_va)
-        
+        best_model.fit(X_tr, y_tr)
+        pred = best_model.predict(X_va)
+
         rep = {
             "model": name,
             "accuracy": accuracy_score(y_va, pred),
-            "precision_macro": precision_score(y_va, pred, zero_division=0, average='macro'),
-            "recall_macro": recall_score(y_va, pred, zero_division=0, average='macro'),
-            "f1_macro": f1_score(y_va, pred, zero_division=0, average='macro'),
+            "precision_macro": precision_score(y_va, pred, zero_division=0, average="macro"),
+            "recall_macro": recall_score(y_va, pred, zero_division=0, average="macro"),
+            "f1_macro": f1_score(y_va, pred, zero_division=0, average="macro"),
         }
-        
+
         try:
-            proba = final_p.predict_proba(X_va)[:, 1]
+            proba = best_model.predict_proba(X_va)[:, 1]
             rep["roc_auc"] = roc_auc_score(y_va, proba)
         except Exception:
             proba = None
         
         # --- This is the corrected line ---
         if best_report is None or rep["f1_macro"] > best_report["f1_macro"]:
-            best_name, best_pipe, best_report, best_pred, best_proba = name, final_p, rep, pred, proba
+            best_name, best_pipe, best_report, best_pred, best_proba = name, best_model, rep, pred, proba
 
     # Export split assignments for audit and visualization
     split_csv = os.path.join(artifacts_dir, "split_assignments_classification.csv")
@@ -458,6 +476,8 @@ def train_regression_from_csv(
     valid_ratio: float = 0.2,
     random_state: int = 42,
     tune_row_cap: Optional[int] = 40000,
+    cv_splits: int = 10,
+    scoring: str = "neg_root_mean_squared_error",
 ) -> RegressionResult:
     artifacts_dir = _resolve_artifacts_dir(artifacts_dir)
     df = load_csv_dedup(csv_path)
@@ -475,42 +495,51 @@ def train_regression_from_csv(
 
     families = {
         "ridge": {
-            "make": lambda: Pipeline([("pre", pre_ohe_scaled(X_tr)), ("reg", Ridge())]),
-            "grid": {"reg__alpha": [0.3, 1.0, 3.0]}
+            "pipe": Pipeline([("pre", pre_ohe_scaled(X_tr)), ("reg", Ridge())]),
+            "grid": {"reg__alpha": [0.001, 0.01, 0.1, 1, 10, 100]},
         },
         "tree": {
-            "make": lambda: Pipeline([("pre", pre_ordinal(X_tr)),
-                                      ("reg", DecisionTreeRegressor(random_state=random_state))]),
-            "grid": {"reg__max_depth": [3, 5, 9], "reg__min_samples_leaf": [1, 5]}
+            "pipe": Pipeline([("pre", pre_ordinal(X_tr)), ("reg", DecisionTreeRegressor(random_state=random_state))]),
+            "grid": {"reg__max_depth": [3, 5, 7, 9], "reg__min_samples_leaf": [1, 3, 5, 10]},
         },
         "knn": {
-            "make": lambda: Pipeline([("pre", pre_ohe_scaled(X_tr)), ("reg", KNeighborsRegressor())]),
-            "grid": {"reg__n_neighbors": [7, 15, 25], "reg__weights": ["uniform", "distance"]}
+            "pipe": Pipeline([("pre", pre_ohe_scaled(X_tr)), ("reg", KNeighborsRegressor())]),
+            "grid": {"reg__n_neighbors": [3, 5, 7, 10, 15], "reg__weights": ["uniform", "distance"]},
         },
     }
 
     best_name, best_pipe, best_report, best_pred = None, None, None, None
+
+    # Add cross-validation
+    cv = KFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
+
     for name, spec in families.items():
-        best_params, best_rmse = None, np.inf
-        for params in _product(spec["grid"]):
-            p = spec["make"](); p.set_params(**params); p.fit(X_tune, y_tune)
-            rmse = mean_squared_error(y_va, p.predict(X_va), squared=False)
-            if rmse < best_rmse:
-                best_rmse, best_params = rmse, params
-        final_p = spec["make"]()
-        if best_params: final_p.set_params(**best_params)
-        final_p.fit(X_tr, y_tr)
-        pred = final_p.predict(X_va)
+        gs = GridSearchCV(
+            estimator=spec["pipe"],
+            param_grid=spec["grid"],
+            scoring=scoring,
+            cv=cv,
+            n_jobs=-1,
+            verbose=0,
+        )
+        gs.fit(X_tune, y_tune)
+        best_model = gs.best_estimator_
+
+        # Refit on full training data
+        best_model.fit(X_tr, y_tr)
+        pred = best_model.predict(X_va)
+
         rep = {
             "model": name,
             "MAE": mean_absolute_error(y_va, pred),
             "RMSE": mean_squared_error(y_va, pred, squared=False),
             "R2": r2_score(y_va, pred),
         }
-        if best_report is None or rep["RMSE"] < best_report["RMSE"]:
-            best_name, best_pipe, best_report, best_pred = name, final_p, rep, pred
 
-    safe_tgt = target_col.replace(' ', '_')
+        if best_report is None or rep["RMSE"] < best_report["RMSE"]:
+            best_name, best_pipe, best_report, best_pred = name, best_model, rep, pred
+
+    safe_tgt = target_col.replace(" ", "_")
     split_csv = os.path.join(artifacts_dir, f"split_assignments_regression_{safe_tgt}.csv")
     _export_split_assignments(split_csv, tr, va, ids, target_col)
 
@@ -687,7 +716,10 @@ def run_pca_embeddings_from_csv(
 
     return EmbeddingResult("pca", n_components, artifacts_dir, embed_csv)
 
-def drop_unnecessary_cols(df,target_col,ids = ["Booking ID", "Customer ID"]):
-    drop_cols = [c for c in (set(ids) | EXCLUDE_ALWAYS | {target_col}) if c in df.columns]
+def drop_unnecessary_cols(df,target_col=None,ids = ["Booking ID", "Customer ID"]):
+    if target_col is not None:
+        drop_cols = [c for c in (set(ids) | EXCLUDE_ALWAYS | {target_col}) if c in df.columns]
+    else:
+        drop_cols = [c for c in (set(ids) | EXCLUDE_ALWAYS) if c in df.columns]
     result_df =  df.drop(columns=drop_cols, errors="ignore")
     return result_df
