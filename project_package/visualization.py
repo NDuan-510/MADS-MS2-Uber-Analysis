@@ -135,8 +135,8 @@ class Model_Visualizer():
                      edgecolor='black'
                      )
         # Add labels, title, and legend
-        axes[1].set_xlabel('Residual error')
-        axes[1].set_ylabel('Value')
+        axes[1].set_xlabel('Distribution')
+        axes[1].set_ylabel('Residuals')
         axes[1].set_title('Residual error histogram')
         axes[1].legend()
 
@@ -298,8 +298,8 @@ class Model_Visualizer():
         score_name,
         param1=None,  # (name,filter_col,filter_value) or name
         param2=None,  # (name,filter_col,filter_value) or name
-        plot_3d_grid = True,
-        log_params = True,
+        log_param1 = False,
+        log_param2 = False,
         subplot_titles=("First Subplot","Second Subplot", None),
         width=1000,
         height=800
@@ -494,7 +494,7 @@ class Model_Visualizer():
                     f"{score_name}:" + " %{z}",
                     colorbar=dict(
                         orientation='v',   
-                        x=0.85,             
+                        x=1,             
                         y=0.05,        
                         xanchor='right',
                         yanchor='bottom',
@@ -522,10 +522,17 @@ class Model_Visualizer():
             fig.update_xaxes(title_text=param2_name, row=1, col=2)
             fig.update_yaxes(title_text=score_name, row=1, col=2)
 
-        if log_params and plot_3d_grid:
+        if n==2:
+            if log_param1:
+                fig.update_xaxes(type="log", row=1, col=1)
+                fig.update_scenes(xaxis=dict(type='log'))
+            if log_param2:
+                fig.update_xaxes(type="log", row=1, col=2)
+                fig.update_scenes(yaxis=dict(type='log'))
+            
+        elif (param1 is not None) and log_param1:
             fig.update_xaxes(type="log")
-            fig.update_yaxes(type="log")
-        elif log_params:
+        elif (param2 is not None) and log_param2:
             fig.update_xaxes(type="log")
 
         fig.update_layout(
