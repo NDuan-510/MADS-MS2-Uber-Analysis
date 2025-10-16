@@ -233,11 +233,11 @@ def learning_curve_test(
         test_model = clone(model)
         if stratify:
             X_train, _, y_train, _ = train_test_split(
-                X, y, train_size=n, random_state=random_state
+                X, y, train_size=n,stratify=y, random_state=random_state
             )
         else:
             X_train, _, y_train, _ = train_test_split(
-                X, y, train_size=n,stratify=target_col, random_state=random_state
+                X, y, train_size=n, random_state=random_state
             )
 
         cross_score = cross_val_score(test_model, X_train, y_train, cv=cv,scoring=scorer,n_jobs=n_jobs)
