@@ -26,3 +26,4 @@ six==1.17.0
 threadpoolctl==3.6.0
 tqdm==4.66.5
 tzdata==2025.2
+shap=0.48.0
