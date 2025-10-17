@@ -71,15 +71,14 @@ def ablation_test(
     cv=10,
     stratify = True,
     remove_features: list = None,
-    n_jobs = None,
-    random_state = None
+    n_jobs = None
 ):
     cross_scores = []
     test_scores = []
     feature_cols = train_data.columns.drop(target_col)
     
     if stratify:
-        cv = StratifiedKFold(n_splits=cv, random_state=random_state)
+        cv = StratifiedKFold(n_splits=cv)
 
     base_test_score =  scorer(
         model,
@@ -224,7 +223,7 @@ def learning_curve_test(
         raise ValueError("Sampling range exceed the number of data records")
     
     if stratify:
-        cv = StratifiedKFold(n_splits=cv, random_state=random_state)
+        cv = StratifiedKFold(n_splits=cv)
         
     cross_scores = []
     for n in sample_range:
