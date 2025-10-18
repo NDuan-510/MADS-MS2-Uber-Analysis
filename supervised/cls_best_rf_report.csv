@@ -1,2 +1,2 @@
-model,accuracy,precision_macro,recall_macro,f1_macro,roc_auc
-rf,0.934351873955598,0.9462452573152745,0.9168198148821891,0.9281736460759437,0.9657428615820927
+model,accuracy,precision_macro,recall_macro,f1_macro,best_params,cv_mean,cv_std,roc_auc
+rf,0.934351873955598,0.9462452573152745,0.9168198148821891,0.9281736460759437,"{'clf__max_depth': 11, 'clf__min_samples_leaf': 3, 'clf__n_estimators': 300}",0.9304925856303665,0.004182418847878602,0.9657428615820927
