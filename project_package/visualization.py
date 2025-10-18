@@ -178,7 +178,8 @@ class Model_Visualizer():
         color: str ='skyblue',
         normalize: bool =False,
         top_n: int = None,
-        ax = None
+        ax = None,
+        title= 'Feature Importance plot'
         ):
 
         if normalize:
@@ -197,7 +198,7 @@ class Model_Visualizer():
         ax.barh(feature_names, score_array, color=color,height=height)
         ax.set_xlabel('Importance')
         ax.set_ylabel('Features')
-        ax.set_title('Feature Importance plot')
+        ax.set_title(title)
 
         return ax
     
