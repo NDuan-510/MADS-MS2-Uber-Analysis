@@ -415,7 +415,9 @@ def train_classification_from_csv(
     }
 
     best_name, best_pipe, best_report, best_pred, best_proba = None, None, None, None, None
+    # Add cross-validation
     cv = KFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
+    all_metrics = []
 
     for name, spec in families.items():
 
@@ -426,6 +428,7 @@ def train_classification_from_csv(
             cv=cv,
             n_jobs=-1,
             verbose=0,
+            return_train_score=True,
         )
 
         gs.fit(X_tune, y_tune)
@@ -441,7 +444,11 @@ def train_classification_from_csv(
             "precision_macro": precision_score(y_va, pred, zero_division=0, average="macro"),
             "recall_macro": recall_score(y_va, pred, zero_division=0, average="macro"),
             "f1_macro": f1_score(y_va, pred, zero_division=0, average="macro"),
+            "best_params": gs.best_params_,
+            "cv_mean": gs.cv_results_["mean_test_score"][gs.best_index_],
+            "cv_std": gs.cv_results_["std_test_score"][gs.best_index_],
         }
+        all_metrics.append(rep)
 
         try:
             proba = best_model.predict_proba(X_va)[:, 1]
@@ -465,6 +472,11 @@ def train_classification_from_csv(
     model_path = os.path.join(artifacts_dir, f"best_cls_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
+    
+    # export all family model metrics
+    metrics_csv = os.path.join(artifacts_dir, f"cls_all_models_metrics_{best_name}_report.csv")
+    metric_df = pd.DataFrame(all_metrics)
+    metric_df.to_csv(metrics_csv, index=False)
 
     return ClassificationResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
@@ -509,9 +521,9 @@ def train_regression_from_csv(
     }
 
     best_name, best_pipe, best_report, best_pred = None, None, None, None
-
     # Add cross-validation
     cv = KFold(n_splits=cv_splits, shuffle=True, random_state=random_state)
+    all_metrics = []
 
     for name, spec in families.items():
         gs = GridSearchCV(
@@ -521,6 +533,7 @@ def train_regression_from_csv(
             cv=cv,
             n_jobs=-1,
             verbose=0,
+            return_train_score=True,
         )
         gs.fit(X_tune, y_tune)
         best_model = gs.best_estimator_
@@ -534,7 +547,11 @@ def train_regression_from_csv(
             "MAE": mean_absolute_error(y_va, pred),
             "RMSE": mean_squared_error(y_va, pred, squared=False),
             "R2": r2_score(y_va, pred),
+            "best_params": gs.best_params_,
+            "cv_mean": abs(gs.cv_results_["mean_test_score"][gs.best_index_]),
+            "cv_std": gs.cv_results_["std_test_score"][gs.best_index_],
         }
+        all_metrics.append(rep)  # collect each model’s CV mean/std
 
         if best_report is None or rep["RMSE"] < best_report["RMSE"]:
             best_name, best_pipe, best_report, best_pred = name, best_model, rep, pred
@@ -549,6 +566,11 @@ def train_regression_from_csv(
     model_path = os.path.join(artifacts_dir, f"best_reg_{best_name}_{target_col}.pkl")
     with open(model_path, "wb") as f:
         pickle.dump(best_pipe, f)
+
+    # export all family model metrics
+    metrics_csv = os.path.join(artifacts_dir, f"reg_all_models_metrics_{safe_tgt}_report.csv")
+    metric_df = pd.DataFrame(all_metrics)
+    metric_df.to_csv(metrics_csv, index=False)
 
     return RegressionResult(best_name, best_report, model_path, artifacts_dir, preds_csv, split_csv)
 
