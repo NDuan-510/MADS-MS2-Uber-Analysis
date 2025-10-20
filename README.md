@@ -18,9 +18,7 @@ We have already cached the datasets into the `datasets/raw` directory through cs
 
 # Rerunning data processing step
 
-In the `datasets/raw/merged` directory, we have saved a cleaned version of the merged and scaled dataset that we are using for the modeling. We are using Dask on the backend to parition this file so we can save on github; therefore, it is split into many small csv files. You can refer to any of these small csv files if you want to view the data, as they have the same schema. The prefix name of the split files is `ncr_ride_bookings_with_weather_filled_scaled_short_v2*`. In order to read this file as a whole, you can use the helper function `utility.read_data` in the `project_package` to combine them together as a dataframe. 
-
-You can also view the combined csv file in `datasets/processed/ncr_ride_bookings_with_weather_filled_scaled_short.csv`.
+In the `datasets/raw/merged` directory, we have saved a cleaned version of the merged and scaled dataset that we are using for the modeling, it's called `ncr_ride_bookings_with_weather_filled_scaled_short.csv`. If you want to rerun the whole preprocessing step, you can run notebook 2.1-2.3 in the given order.
 
 # Modeling step
 
